@@ -1,11 +1,16 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Image, Text, StyleSheet } from 'react-native';
 
 export default function SplashScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>✨ EchoLog ✨</Text>
-      <Text>당신의 감정을 기록하는 공간</Text>
+      <Image 
+      source={require('../assets/echoLog_logo.png')}
+      style={{ width: 200, height: 200}}
+      resizeMode='contain'
+      />
+      <Text style={styles.title}>✨ 오늘 하루, 어떻게 지냈나요? ✨</Text>
+      <Text style={styles.small_text}>언제든 마음을 털어놓을 수 있는 {"\n"} 당신만의 공간, Echo Log</Text>
     </View>
   );
 }
@@ -18,8 +23,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   title: {
-    fontSize: 28,
+    fontSize: 25,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 20,
+    color: '3F3F3F',
   },
+  small_text: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#3F3F3F',
+  }
 });
