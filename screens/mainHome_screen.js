@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,Text,Image,StyleSheet,FlatList,TouchableOpacity,Dimensions,
 } from 'react-native';
-import { useState } from 'react';
+  
+
+
 
 import { useNavigation } from '@react-navigation/native';
 import dayjs from 'dayjs';
@@ -16,6 +18,9 @@ import angryIcon from '../assets/emotions/angry.jpg';
 
 import plusIcon from '../assets/plus.png' 
 
+
+
+//태그 매칭
 const emotionToTag = {
     joy: '#기쁨',
     sad: '#슬픔',
@@ -25,7 +30,7 @@ const emotionToTag = {
     anxiety: '#불안',
   };
 
-
+//5월 1~31일 내용(날짜,감정, 내용)
 const rawCalendarData = [
     { date: '2025-05-01', emotion: 'joy', content: null,
         fullText: `오늘 아침에 알람을 못 들어서 지각할 뻔했다. 뛸 수 있는 데에서는 다 뛰어서 겨우 강의실에 수업 시작시간에 도착해서 다행히 출석체크는 잘 마쳤다. 오후에는 일본어 교양 수업을 들으러 갔었는데, 이번주부터 팀플을 시작한다고 하셨다. 같이 팀 된 팀원들이 너무 대충해서 혼자 독박쓰게 생겨서 너무 슬펐다. 나는 왜 이렇게 팀원 운이 없는건지 모르겠다. 아침부터 오후 내내 고생해서 저녁에는 맛있는걸 사 먹으려고 했는데 엄마가 집 와서 주는거 먹으라고 하셔서 결국 집밥을 먹었다. 여러모로 참 힘들었던 하루. `},
@@ -61,6 +66,8 @@ const rawCalendarData = [
     { date: '2025-05-31', emotion: null, content: null },
     // 나머지 날짜도 생성하여 추가 가능
   ];
+
+  //감정에 따른 임티표시
   const getEmotionIcon = (emotion) => {
     switch (emotion) {
       case 'joy': return joyIcon;
@@ -73,7 +80,7 @@ const rawCalendarData = [
     }
   };
  
-
+//일기 있는 날짜 눌렀을 때 미리보기 60자
   const calendarData = rawCalendarData.map(item => {
     let preview = null;
     if (!item.content && item.fullText) {
@@ -89,7 +96,9 @@ const rawCalendarData = [
     };
   });
 
+
   const today = dayjs().format('YYYY-MM-DD');
+  
   
   export default function MainCalendarScreen() {
     const [selectedDate, setSelectedDate] = useState(null);

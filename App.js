@@ -5,24 +5,38 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import SplashScreen from './screens/splash_screen';
 import MainHomeScreen from './screens/mainHome_screen';
+import TestMainHome from './screens/test_mainHome';
+import WrittenDiaryDetailScreen from './screens/writtenDiaryNFeedback_screen';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="MainHome">
+      <Stack.Navigator initialRouteName="WrittenDiary">
         <Stack.Screen
           name="Splash"
           component={SplashScreen}
-          options={{ headerShown: false }} // 상단 헤더 없애기
+          options={{ headerShown: false }} 
         />
-         <Stack.Screen
-      name="MainHome"
-      component={MainHomeScreen}
-      options={{ headerShown: false }}
-    />
-        {/* 이후에 Home, Diary, Write 등 화면을 여기에 추가 */}
+        <Stack.Screen
+          name="WrittenDiary"
+          component={WrittenDiaryDetailScreen}
+          options={{ headerShown: false }} 
+        />
+    
+         {/* <Stack.Screen
+          name="MainHome"
+          component={MainHomeScreen}
+          options={{ headerShown: false }}
+        />
+    
+        <Stack.Screen
+          name="TestMainHome"
+          component={TestMainHome}
+          options={{ headerShown: false }}
+        />      */}
+
       </Stack.Navigator>
     </NavigationContainer>
   );
