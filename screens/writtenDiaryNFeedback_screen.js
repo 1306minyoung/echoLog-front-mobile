@@ -13,11 +13,14 @@ import { styles } from './styleSheet/writtenDiaryNFeedback_style.js';
 const WrittenDiaryDetailScreen = () => {
   const [isRewriteModalVisible, setIsRewriteModalVisible] = useState(false);
   const [showOriginal, setShowOriginal] = useState(false);
-  const [userReaction, setUserReaction] = useState(null);
   const diary = mockGetDiaryById(1);
   const emotion = mockGetEmotionById(diary.emotionId);
   const feedback = mockGetDiaryFeedbackById(diary.diaryFeedbackId);
+  const [userReaction, setUserReaction] = useState(feedback.userReaction);
   const depression = mockGetDepressionById(diary.depressionId);
+  const updateUserReaction = (reaction) => {
+    console.log(`(mock) 사용자 반응: ${reaction}`); //나중에 PUT연결(수정 필요)
+  };
   
 
   return (
@@ -26,6 +29,7 @@ const WrittenDiaryDetailScreen = () => {
         {/* 상단 nav, logo*/}
         <View style={styles.navRow}>
           <TouchableOpacity>
+            {/*뒤로가기버튼-> 홈화면 연결필요*/}
             <Text style={styles.backButton}>{'<'}</Text>
           </TouchableOpacity>
           <Image source={require('../assets/echoLog_logo.png')} style={styles.logo} />
@@ -69,22 +73,34 @@ const WrittenDiaryDetailScreen = () => {
             <Text style={styles.feedbackText}>{feedback.content}</Text>
             {/*피드백 좋아요 별로에요*/}
             <View style={styles.reactionContainer}>
-              <TouchableOpacity onPress={() => {setUserReaction('LIKE');}}>
+              <Text style={styles.likeit}>맘에 들었나요?</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  setUserReaction('LIKE');
+                  updateUserReaction('LIKE');
+                }}
+              >
                 <Image
-                  source={ 
+                  source={
                     userReaction === 'LIKE'
-                      ? require('../assets/Like_pushed.png') // 강조
-                      : require('../assets/Like_first.png') // 기본
+                      ? require('../assets/Like_pushed.png')
+                      : require('../assets/Like_first.png')
                   }
                   style={styles.reactionIcon}
                 />
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => setUserReaction('DISLIKE')}>
+
+              <TouchableOpacity
+                onPress={() => {
+                  setUserReaction('DISLIKE');
+                  updateUserReaction('DISLIKE');
+                }}
+              >
                 <Image
                   source={
                     userReaction === 'DISLIKE'
-                      ? require('../assets/Dislike_pushed.png') // 강조
-                      : require('../assets/Dislike_first.png') // 기본
+                      ? require('../assets/Dislike_pushed.png')
+                      : require('../assets/Dislike_first.png')
                   }
                   style={styles.reactionIcon}
                 />
@@ -93,8 +109,23 @@ const WrittenDiaryDetailScreen = () => {
           </View>     
         </View>
 
-        {/*우울증 전문가 추천내용....추가해야함 ㅠ*/}
-        
+        {/*우울증 전문가 추천내용*/}
+        {depression.result === true && (
+          <View style={[styles.depressionBox]}>
+            <Text style={styles.depressionTitle}>
+              최근 14일간의 일기를 분석해봤는데,{'\n'}
+              요즘 너무 우울해하는 것 같아 걱정돼…🥲{'\n'}
+              전문가 상담 또는 기관의 도움을 받는 걸 추천해!
+            </Text>
+            <Text style={styles.depressionContact}>상담번호: 000-0000-0000{'\n'}기관번호: 000-0000-0000</Text>
+            <Text style={styles.depressionScore}>
+              {'\n'}최근 2주 간 일기 기반 점수{'\n'}• PHQ-9: {depression.phq9Score}점{'\n'}• GAD-7: {depression.gad7Score}점
+            </Text>
+            <Text style={styles.depressionNote}>
+              *PHQ·GAD는 우울증 증상을 측정, 진단하는 설문지로{'\n'}인지적, 정서적, 신체적 증상의 변화를 평가함
+            </Text>
+          </View>
+        )}
 
           {/*원본 구어체 글 띄움 */}
         <Modal visible={showOriginal} transparent animationType="fade">

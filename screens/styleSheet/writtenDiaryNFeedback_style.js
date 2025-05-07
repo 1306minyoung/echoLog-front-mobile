@@ -86,6 +86,8 @@ export const styles = StyleSheet.create({
       padding: 16,
       backgroundColor: '#f9f9f9',
       borderRadius: 20,
+      borderWidth: 0.7,                
+      borderColor: '#C6C6C6', 
     },
     diaryText: {
       fontSize: 16,
@@ -96,6 +98,7 @@ export const styles = StyleSheet.create({
       flexDirection: 'row',
       marginTop: 20,
       alignItems: 'flex-start',
+      
     },
     characterImage: {
       width: 60,
@@ -107,6 +110,8 @@ export const styles = StyleSheet.create({
       backgroundColor: '#f5f0ff',
       padding: 14,
       borderRadius: 20,
+      borderWidth: 0.7,                
+      borderColor: '#C6C6C6', 
     },
     feedbackText: {
       fontSize: 15,
@@ -179,6 +184,8 @@ export const styles = StyleSheet.create({
       fontSize: 14,
       color: '#FFF',
     },
+    
+    //피드백 맘에 드나 
     reactionContainer: {
       flexDirection: 'row',
       justifyContent: 'flex-end',
@@ -189,5 +196,49 @@ export const styles = StyleSheet.create({
       height: 20,
       marginHorizontal: 6,
     },
+    likeit: { 
+      fontSize: 13,
+      color: '#C6C6C6'
+
+    },
+
+    //우울증 전문가 도움 추천 부분
+    depressionBox: { 
+      marginTop: 20,
+      padding: 16,
+      borderRadius: 20,
+      marginTop: 40,
+      backgroundColor: '#EFEFFF',
+      borderWidth: 0.7,                
+      borderColor: '#C6C6C6', 
+    },
     
+    depressionTitle: {
+      fontSize: 14,
+      fontWeight: '500',
+      color: '#424242',
+      marginBottom: 8,
+      textAlign: 'center',
+    },
+    
+    depressionContact: {
+      fontSize: 14,
+      color: '#424242',
+      textAlign: 'center',
+    },
+    
+    depressionScore: {
+      fontSize: 14,
+      fontWeight: '500',
+      color: '#6C6C6C',
+      textAlign: 'center',
+    },
+    
+    depressionNote: {
+      fontSize: 11,
+      color: '#6C6C6C',
+      marginTop: 8,
+      lineHeight: 16,
+      textAlign: 'center',
+    },
   });

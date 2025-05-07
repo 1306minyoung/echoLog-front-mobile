@@ -5,7 +5,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import SplashScreen from './screens/splash_screen';
 import MainHomeScreen from './screens/mainHome_screen';
-import TestMainHome from './screens/test_mainHome';
 import WrittenDiaryDetailScreen from './screens/writtenDiaryNFeedback_screen';
 
 const Stack = createNativeStackNavigator();
@@ -13,7 +12,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="WrittenDiary">
+      <Stack.Navigator initialRouteName="MainHome">
         <Stack.Screen
           name="Splash"
           component={SplashScreen}
@@ -24,19 +23,12 @@ export default function App() {
           component={WrittenDiaryDetailScreen}
           options={{ headerShown: false }} 
         />
-    
-         {/* <Stack.Screen
+        <Stack.Screen
           name="MainHome"
           component={MainHomeScreen}
           options={{ headerShown: false }}
         />
     
-        <Stack.Screen
-          name="TestMainHome"
-          component={TestMainHome}
-          options={{ headerShown: false }}
-        />      */}
-
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,10 +1,14 @@
 // 우울증 평가 조회용 (GET🟢 /api/depressions/{depressionId})
 export const mockGetDepressionById=(depressionId) => {
   const mockDepression = {
-    5001: {depressionId: 5001, 
+    5001: {
+      depressionId: 5001,
       result: true,
-      content: "우울증이 심각하니 전문가와 상담을 받는 것이 좋습니다.",
-      emotionScore: 7.8, depressionWordScore: 6.3, phq9Score: 15.2}
+      emotionScore: 7.8,
+      depressionWordScore: 6.3,
+      phq9Score: 15.2,
+      gad7Score: 6.62
+    }
   };
   return mockDepression[depressionId];
 };
@@ -17,10 +21,10 @@ export const mockGetDepressionById=(depressionId) => {
     response: {
       depressionId: 5001,
       result: true,
-      content: "우울증이 심각하니 전문가와 상담을 받는 것이 좋습니다.",
       emotionScore: 7.8,
       depressionWordScore: 6.3,
       phq9Score: 15.2,
+      gad7Score: 6.62
     },
   };
   
@@ -28,17 +32,17 @@ export const mockGetDepressionById=(depressionId) => {
   export const mockPutDepression = {
     request: {
       result: true,
-      content: "우울증이 심각하니 전문가와 상담을 받는 것이 좋습니다.",
       emotionScore: 7.8,
       depressionWordScore: 6.3,
       phq9Score: 15.2,
+      gad7Score: 6.62
     },
     response: {
       depressionId: 5001,
       result: true,
-      content: "우울증이 심각하니 전문가와 상담을 받는 것이 좋습니다.",
       emotionScore: 7.8,
       depressionWordScore: 6.3,
       phq9Score: 15.2,
+      gad7Score:6.62
     },
   };
