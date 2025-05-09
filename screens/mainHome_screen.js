@@ -111,13 +111,13 @@ export default function MainHome() {
                     onPress={() => setSelectedDate(dateStr)}
                     activeOpacity={1}
                   >
-                    <View style={isSelected ? styles.selectedDay : null}>
+                    <View /*style={isSelected ? styles.selectedDay : null}*/>
                       <Text style={styles.dayText}>{date.date()}</Text>
                     </View>
                     <View
                       style={[
                         styles.iconCircle,
-                        isSelected && styles.iconSelectedCircle,
+                        // isSelected && styles.iconSelectedCircle,
                       ]}
                     >
                       <Image
