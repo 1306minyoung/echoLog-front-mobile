@@ -1,152 +1,223 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
-  Image,
   TouchableOpacity,
-  Modal,
-  FlatList,
-  Pressable,
-  Animated,
+  Image,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
-import { Calendar } from 'react-native-calendars';
 import dayjs from 'dayjs';
-import { styles } from './styleSheet/mainHome_style.js';
-import { emotionImage } from '../assets/emotions';
-import grayCircle from '../assets/grayCircle.png';
-import { mockGetDiariesByMember } from '../mockData/dummy_diary.js';
+import { styles } from './styleSheet/mainHome_style';
 
-const years = Array.from({ length: 11 }, (_, i) => 2020 + i);
-const months = Array.from({ length: 12 }, (_, i) => i + 1);
+import {
+  mockGetDiaryById,
+  mockGetDiariesByMember,
+} from '../mockData/dummy_diary';
+import { emotionImage, emotionTypeToKorean } from '../assets/emotions';
+
+import logoutIcon from '../assets/nav/logout_logo.png';
+import recapIcon from '../assets/nav/recap_logo.png';
+import settingsIcon from '../assets/nav/setting_logo.png';
+import plusIcon from '../assets/plus.png'; // ✅ + 아이콘
 
 export default function MainHome() {
-  const [selectedDate, setSelectedDate] = useState('2025-03-01');
-  const [markedDates, setMarkedDates] = useState({});
-  const [modalVisible, setModalVisible] = useState(false);
-  const [tempYear, setTempYear] = useState(2025);
-  const [tempMonth, setTempMonth] = useState(3);
-
-  const scaleAnim = useRef(new Animated.Value(1)).current;
+  const [currentDate, setCurrentDate] = useState(dayjs('2025-04-01'));
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [diaryData, setDiaryData] = useState([]);
 
   useEffect(() => {
-    const base = dayjs(selectedDate);
-    const start = base.startOf('month');
-    const end = base.endOf('month');
-    const markings = {};
+    const data = mockGetDiariesByMember(1001);
+    setDiaryData(data.diaries);
+  }, []);
 
-    const memberId = 1001;
-    const diaryData = mockGetDiariesByMember(memberId)?.diaries || [];
-
-    const diaryMap = new Map(
-      diaryData.map((d) => [d.writtenDate, emotionImage(d.emotionType)])
-    );
-
-    for (let d = start; d.isBefore(end) || d.isSame(end, 'day'); d = d.add(1, 'day')) {
-      const dateStr = d.format('YYYY-MM-DD');
-      const icon = diaryMap.get(dateStr);
-      markings[dateStr] = {
-        icon: icon || grayCircle,
-      };
-    }
-
-    setMarkedDates(markings);
-  }, [selectedDate]);
-
-  const handleConfirm = () => {
-    const newDate = `${tempYear}-${String(tempMonth).padStart(2, '0')}-01`;
-    setSelectedDate(newDate);
-    setModalVisible(false);
+  const changeMonth = (offset) => {
+    setCurrentDate(currentDate.add(offset, 'month'));
+    setSelectedDate(null);
   };
 
-  const displayMonth = dayjs(selectedDate).format('YYYY년 M월');
+  const getDiaryByDate = (dateStr) =>
+    diaryData.find((d) => d.writtenDate === dateStr);
+
+  const startOfMonth = currentDate.startOf('month');
+  const daysInMonth = currentDate.daysInMonth();
+  const startDayOfWeek = startOfMonth.day();
+
+  const calendarDays = [];
+  for (let i = 0; i < startDayOfWeek; i++) {
+    calendarDays.push(null);
+  }
+  for (let i = 1; i <= daysInMonth; i++) {
+    calendarDays.push(currentDate.date(i));
+  }
+
+  const todayStr = dayjs().format('YYYY-MM-DD');
+  console.log(todayStr);
 
   return (
-    <View style={{ flex: 1 }}>
-      <Calendar
-        current={selectedDate}
-        markingType="custom"
-        markedDates={markedDates}
-        hideArrows={true}
-        renderHeader={() => null}
-        onDayPress={(day) => {
-          setSelectedDate(day.dateString);
-          const d = dayjs(day.dateString);
-          setTempYear(d.year());
-          setTempMonth(d.month() + 1);
-        }}
-        dayComponent={({ date, state }) => {
-          const dateStr = date.dateString;
-          const icon = markedDates[dateStr]?.icon;
-          const isSelected = dateStr === dayjs(selectedDate).format('YYYY-MM-DD');
+    <TouchableWithoutFeedback
+      onPress={() => {
+        setSelectedDate(null);
+        Keyboard.dismiss();
+      }}
+    >
+      <View style={{ flex: 1 }}>
+        <View style={styles.screen}>
+          {/* 로고 */}
+          <View style={styles.headerRow}>
+            <View style={{ flex: 1 }} />
+            <Image
+              source={require('../assets/echoLog_logo.png')}
+              style={styles.logo}
+            />
+          </View>
 
-          const content = (
-            <View
-              style={[{ alignItems: 'center' }, isSelected && styles.selectedDay]}>
-              <Text
-                style={[
-                  { color: state === 'disabled' ? 'gray' : 'black', fontSize: 14 },
-                  isSelected && styles.selectedDayText,
-                ]}
-              >
-                {date.day}
-              </Text>
-              {icon && (
-                <Image source={icon} style={styles.icon} resizeMode="contain" />
+          {/* 달력 상단 */}
+          <View style={styles.headerRow}>
+            <Text style={styles.dropdownIcon} onPress={() => changeMonth(-1)}>
+              {'<'}
+            </Text>
+            <Text style={styles.dateText}>
+              {currentDate.format('YYYY년 M월')}
+            </Text>
+            <Text style={styles.dropdownIcon} onPress={() => changeMonth(1)}>
+              {'>'}
+            </Text>
+          </View>
+
+          {/* 달력 */}
+          <View style={styles.calendarContainer} pointerEvents="box-none">
+            <View style={styles.weekRow}>
+              {['일', '월', '화', '수', '목', '금', '토'].map((d) => (
+                <Text key={d} style={styles.weekDay}>
+                  {d}
+                </Text>
+              ))}
+            </View>
+
+            <View style={styles.daysContainer}>
+              {calendarDays.map((date, idx) => {
+                if (date === null) {
+                  return <View key={idx} style={styles.dayWrapper} />;
+                }
+
+                const dateStr = date.format('YYYY-MM-DD');
+                const isSelected = selectedDate === dateStr;
+                const isToday = dateStr === todayStr;
+                const diary = getDiaryByDate(dateStr);
+
+                return (
+                  <TouchableOpacity
+                    key={idx}
+                    style={styles.dayWrapper}
+                    onPress={() => setSelectedDate(dateStr)}
+                    activeOpacity={1}
+                  >
+                    <View style={isSelected ? styles.selectedDay : null}>
+                      <Text style={styles.dayText}>{date.date()}</Text>
+                    </View>
+                    <View
+                      style={[
+                        styles.iconCircle,
+                        isSelected && styles.iconSelectedCircle,
+                        isToday && styles.todayCircle,
+                      ]}
+                    >
+                      {isToday ? (
+                        <Image
+                          source={plusIcon}
+                          style={styles.plusIcon}
+                          resizeMode="contain"
+                        />
+                      ) : (
+                        <Image
+                          source={
+                            diary
+                              ? emotionImage(diary.emotionType)
+                              : require('../assets/grayCircle.png')
+                          }
+                          style={styles.dayIcon}
+                          resizeMode="cover"
+                        />
+                      )}
+                    </View>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          </View>
+
+          {/* 일기 카드 */}
+          {selectedDate && (
+            <View style={styles.diaryCard}>
+              {getDiaryByDate(selectedDate) ? (
+                <>
+                  <View style={styles.cardHeader}>
+                    <Image
+                      source={emotionImage(
+                        getDiaryByDate(selectedDate)?.emotionType
+                      )}
+                      style={styles.emotionIcon}
+                    />
+                    <View style={{ marginLeft: 12 }}>
+                      <Text style={styles.diaryDate}>
+                        {dayjs(selectedDate).format('YY.MM.DD')}
+                      </Text>
+                      <Text style={styles.emotionTag}>
+                        {emotionTypeToKorean(
+                          getDiaryByDate(selectedDate)?.emotionType
+                        )}
+                      </Text>
+                    </View>
+                  </View>
+
+                  <Text style={styles.diaryContent}>
+                    {(() => {
+                      const diary = getDiaryByDate(selectedDate);
+                      const fullDiary = diary
+                        ? mockGetDiaryById(diary.diaryId)
+                        : null;
+                      const content = fullDiary?.transformContent ?? '';
+                      return content.length > 60
+                        ? content.slice(0, 60) + '...'
+                        : content;
+                    })()}
+                  </Text>
+
+                  <TouchableOpacity style={styles.diaryButton}>
+                    <Text style={styles.diaryButtonText}>일기 보러가기</Text>
+                  </TouchableOpacity>
+                </>
+              ) : (
+                <>
+                  <Text style={styles.noDiaryText}>
+                    이 날엔 아직 일기가 없어요!
+                  </Text>
+                  <TouchableOpacity style={styles.diaryButton}>
+                    <Text style={styles.diaryButtonText}>일기 쓰러 가쉴?</Text>
+                  </TouchableOpacity>
+                </>
               )}
             </View>
-          );
+          )}
 
-          return isSelected ? (
-            <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
-              {content}
-            </Animated.View>
-          ) : (
-            content
-          );
-        }}
-      />
-
-      <Modal visible={modalVisible} transparent animationType="fade">
-        <View style={styles.modalContainer}>
-          <View style={styles.modalBox}>
-            <Text style={styles.modalTitle}>연도 선택</Text>
-            <FlatList
-              horizontal
-              data={years}
-              keyExtractor={(item) => item.toString()}
-              renderItem={({ item }) => (
-                <Pressable onPress={() => setTempYear(item)} style={styles.yearItem}>
-                  <Text style={[styles.yearText, tempYear === item && styles.selected]}>
-                    {item}
-                  </Text>
-                </Pressable>
-              )}
-              contentContainerStyle={{ paddingBottom: 10 }}
-            />
-
-            <Text style={styles.modalTitle}>월 선택</Text>
-            <FlatList
-              horizontal
-              data={months}
-              keyExtractor={(item) => item.toString()}
-              renderItem={({ item }) => (
-                <Pressable onPress={() => setTempMonth(item)} style={styles.monthItem}>
-                  <Text style={[styles.monthText, tempMonth === item && styles.selected]}>
-                    {item}월
-                  </Text>
-                </Pressable>
-              )}
-            />
-
-            <Pressable onPress={handleConfirm} style={styles.confirmBtn}>
-              <Text style={{ color: 'white' }}>확인</Text>
-            </Pressable>
+          {/* 하단 바 */}
+          <View style={styles.bottomBar}>
+            <TouchableOpacity style={styles.bottomItem}>
+              <Image source={logoutIcon} style={styles.bottomIcon} />
+              <Text style={styles.bottomLabel}>로그아웃</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.bottomItem}>
+              <Image source={recapIcon} style={styles.bottomIcon} />
+              <Text style={styles.bottomLabel}>감정통계</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.bottomItem}>
+              <Image source={settingsIcon} style={styles.bottomIcon} />
+              <Text style={styles.bottomLabel}>설정</Text>
+            </TouchableOpacity>
           </View>
         </View>
-      </Modal>
-    </View>
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
-
-
-

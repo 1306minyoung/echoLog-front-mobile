@@ -83,8 +83,8 @@ const WrittenDiaryDetailScreen = () => {
                 <Image
                   source={
                     userReaction === 'LIKE'
-                      ? require('../assets/Like_pushed.png')
-                      : require('../assets/Like_first.png')
+                      ? require('../assets/dislike_like/Like_pushed.png')
+                      : require('../assets/dislike_like/Like_first.png')
                   }
                   style={styles.reactionIcon}
                 />
@@ -99,8 +99,8 @@ const WrittenDiaryDetailScreen = () => {
                 <Image
                   source={
                     userReaction === 'DISLIKE'
-                      ? require('../assets/Dislike_pushed.png')
-                      : require('../assets/Dislike_first.png')
+                      ? require('../assets/dislike_like/Dislike_pushed.png')
+                      : require('../assets/dislike_like/Dislike_first.png')
                   }
                   style={styles.reactionIcon}
                 />

@@ -9,3 +9,15 @@ export const emotionImage = (emotionType) => {
   };
   return emotions[emotionType];
 };
+
+export const emotionTypeToKorean = (type) => {
+  const map = {
+    JOY: '#기쁨',
+    SAD: '#슬픔',
+    HURT: '#상처',
+    EMBARRASSED: '#당황',
+    ANXIETY: '#불안',
+    ANGRY: '#화남',
+  };
+  return map[type] || '#감정없음';
+};
