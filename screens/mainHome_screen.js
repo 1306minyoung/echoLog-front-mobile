@@ -19,7 +19,6 @@ import { emotionImage, emotionTypeToKorean } from '../assets/emotions';
 import logoutIcon from '../assets/nav/logout_logo.png';
 import recapIcon from '../assets/nav/recap_logo.png';
 import settingsIcon from '../assets/nav/setting_logo.png';
-import plusIcon from '../assets/plus.png'; // ✅ + 아이콘
 
 export default function MainHome() {
   const [currentDate, setCurrentDate] = useState(dayjs('2025-04-01'));
@@ -50,9 +49,6 @@ export default function MainHome() {
   for (let i = 1; i <= daysInMonth; i++) {
     calendarDays.push(currentDate.date(i));
   }
-
-  const todayStr = dayjs().format('YYYY-MM-DD');
-  console.log(todayStr);
 
   return (
     <TouchableWithoutFeedback
@@ -103,8 +99,10 @@ export default function MainHome() {
 
                 const dateStr = date.format('YYYY-MM-DD');
                 const isSelected = selectedDate === dateStr;
-                const isToday = dateStr === todayStr;
                 const diary = getDiaryByDate(dateStr);
+                const icon = diary
+                  ? emotionImage(diary.emotionType)
+                  : require('../assets/grayCircle.png');
 
                 return (
                   <TouchableOpacity
@@ -120,26 +118,13 @@ export default function MainHome() {
                       style={[
                         styles.iconCircle,
                         isSelected && styles.iconSelectedCircle,
-                        isToday && styles.todayCircle,
                       ]}
                     >
-                      {isToday ? (
-                        <Image
-                          source={plusIcon}
-                          style={styles.plusIcon}
-                          resizeMode="contain"
-                        />
-                      ) : (
-                        <Image
-                          source={
-                            diary
-                              ? emotionImage(diary.emotionType)
-                              : require('../assets/grayCircle.png')
-                          }
-                          style={styles.dayIcon}
-                          resizeMode="cover"
-                        />
-                      )}
+                      <Image
+                        source={icon}
+                        style={styles.dayIcon}
+                        resizeMode="cover"
+                      />
                     </View>
                   </TouchableOpacity>
                 );
@@ -201,7 +186,7 @@ export default function MainHome() {
             </View>
           )}
 
-          {/* 하단 바 */}
+          {/* ✅ 하단 바 */}
           <View style={styles.bottomBar}>
             <TouchableOpacity style={styles.bottomItem}>
               <Image source={logoutIcon} style={styles.bottomIcon} />
