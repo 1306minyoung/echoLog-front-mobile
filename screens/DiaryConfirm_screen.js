@@ -1,54 +1,65 @@
-import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
-import { styles } from './styleSheet/writtenDiaryNFeedback_style';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { styles } from './styleSheet/DiaryConfirm_style';
+import axios from 'axios';
+import dayjs from 'dayjs';
 
-export default function DiaryConfirmScreen({ navigation }) {
-  const diaryDate = '25.03.07';
-  const diaryContent = `오늘 학교가 끝나고 집에 가는데 날씨가 진짜 미쳤었다. 
-바람이 완전 세게 불어서 머리가 다 엉켰었고 날려가 나서 
-머리 상태가 개판이었을 것 같다. 
-집 가는 길에 붕장에 들러서 소시지 빵을 샀다. 
-의외로 맛있어서 만족스러웠다.`;
+export default function DiaryConfirmScreen({ route, navigation }) {
+  const { diaryId } = route.params;
+  const [diary, setDiary] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const handleConfirm = () => {
-    // '이걸로 쓸래요' 버튼 로직
-    // navigation.navigate('MainHome'); 또는 API 등록
-    console.log('이걸로 쓸래요');
-  };
+  useEffect(() => {
+    const fetchDiary = async () => {
+      try {
+        const res = await axios.get(`https://your-api-url.com/api/diaries/${diaryId}`);
+        setDiary(res.data);
+      } catch (error) {
+        console.error('Failed to fetch diary:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchDiary();
+  }, [diaryId]);
 
-  const handleEdit = () => {
-    // '수정할래요' 버튼 로직
-    console.log('수정하러 가기');
-  };
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.whiteBox}>
-        {/* 상단 nav */}
-        <View style={styles.navRow}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Text style={styles.backButton}>{'<'}</Text>
-          </TouchableOpacity>
-        </View>
+    <View style={styles.container}>
+      <Text style={styles.dateText}>
+        {dayjs(diary.writtenDate).format('YY.MM.DD')}
+      </Text>
+      <Text style={styles.contentText}>
+        {diary.transformContent || '변환된 일기 내용이 없습니다.'}
+      </Text>
 
-        {/* 날짜 */}
-        <Text style={[styles.date, { marginTop: 24 }]}>{diaryDate}</Text>
-
-        {/* 내용 */}
-        <View style={styles.diaryContentBox}>
-          <Text style={styles.diaryText}>{diaryContent}</Text>
-        </View>
-
-        {/* 버튼 두 개 */}
-        <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 16 }}>
-          <TouchableOpacity style={styles.modalBtnCancel} onPress={handleEdit}>
-            <Text style={styles.modalBtnText}>수정할래요</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.modalBtnConfirm} onPress={handleConfirm}>
-            <Text style={styles.modalBtnTextWhite}>이걸로 쓸래요</Text>
-          </TouchableOpacity>
-        </View>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={[styles.button, styles.grayButton]}
+          onPress={() => {
+            // 예: 수정화면으로 이동
+            navigation.navigate('DiaryEditScreen', { diaryId });
+          }}
+        >
+          <Text style={styles.buttonText}>수정할래요</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.button, styles.redButton]}
+          onPress={() => {
+            // 예: 이전 화면으로 이동 또는 선택 완료 처리
+            navigation.goBack();
+          }}
+        >
+          <Text style={styles.buttonText}>이걸로 쓸래요</Text>
+        </TouchableOpacity>
       </View>
-    </ScrollView>
+    </View>
   );
 }

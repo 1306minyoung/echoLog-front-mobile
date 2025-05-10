@@ -16,7 +16,7 @@ export default function App() {
   return (
     <NavigationContainer>
 
-      <Stack.Navigator initialRouteName="loginSample">
+      <Stack.Navigator initialRouteName="DiaryConfirm">
 
         <Stack.Screen
           name="Splash"
