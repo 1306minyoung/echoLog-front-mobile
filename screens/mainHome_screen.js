@@ -2,16 +2,17 @@ import React, { useState, useEffect } from 'react';
 import {
   View, Text, TouchableOpacity, Image, TouchableWithoutFeedback, Keyboard
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import { styles } from './styleSheet/mainHome_style';
-
 import { emotionImage, emotionTypeToKorean } from '../assets/emotions';
 import logoutIcon from '../assets/nav/logout_logo.png';
 import recapIcon from '../assets/nav/recap_logo.png';
 import settingsIcon from '../assets/nav/setting_logo.png';
 
 export default function MainHome({ route }) {
-  const { accessToken } = route.params; // ✅ 전달받은 토큰
+  const { accessToken } = route.params;
+  const navigation = useNavigation();
 
   const [currentDate, setCurrentDate] = useState(dayjs('2025-04-01'));
   const [selectedDate, setSelectedDate] = useState(null);
@@ -173,7 +174,18 @@ export default function MainHome({ route }) {
                             return content.length > 60 ? content.slice(0, 60) + '...' : content;
                           })()}
                         </Text>
-                        <TouchableOpacity style={styles.diaryButton}>
+                        <TouchableOpacity
+                            style={styles.diaryButton}
+                            onPress={() => {
+                              const diary = getDiaryByDate(selectedDate);
+                              if (diary) {
+                                navigation.navigate('WrittenDiary', {
+                                  diaryId: diary.diaryId,
+                                  accessToken: accessToken
+                                });
+                              }
+                            }}
+                        >
                           <Text style={styles.diaryButtonText}>일기 보러가기</Text>
                         </TouchableOpacity>
                       </>
