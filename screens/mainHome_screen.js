@@ -111,13 +111,12 @@ export default function MainHome() {
                     onPress={() => setSelectedDate(dateStr)}
                     activeOpacity={1}
                   >
-                    <View style={isSelected ? styles.selectedDay : null}>
+                    <View>
                       <Text style={styles.dayText}>{date.date()}</Text>
                     </View>
                     <View
                       style={[
-                        styles.iconCircle,
-                        isSelected && styles.iconSelectedCircle,
+                        styles.iconCircle,                       
                       ]}
                     >
                       <Image
@@ -135,13 +134,16 @@ export default function MainHome() {
           {/* 일기 카드 */}
           {selectedDate && (
             <View style={styles.diaryCard}>
-              {getDiaryByDate(selectedDate) ? (
-                <>
-                  <View style={styles.cardHeader}>
+              {/* 항상 날짜 표시 */}
+              <View style={
+                getDiaryByDate(selectedDate)
+                  ? styles.cardHeaderLeft
+                  : styles.cardHeaderRight
+              }>
+                {getDiaryByDate(selectedDate) ? (
+                  <>
                     <Image
-                      source={emotionImage(
-                        getDiaryByDate(selectedDate)?.emotionType
-                      )}
+                      source={emotionImage(getDiaryByDate(selectedDate)?.emotionType)}
                       style={styles.emotionIcon}
                     />
                     <View style={{ marginLeft: 12 }}>
@@ -149,26 +151,39 @@ export default function MainHome() {
                         {dayjs(selectedDate).format('YY.MM.DD')}
                       </Text>
                       <Text style={styles.emotionTag}>
-                        {emotionTypeToKorean(
-                          getDiaryByDate(selectedDate)?.emotionType
-                        )}
+                        {emotionTypeToKorean(getDiaryByDate(selectedDate)?.emotionType)}
                       </Text>
                     </View>
-                  </View>
+                  </>
+                ) : (
+                  <>
+                    <View>
+                      <Text style={styles.diaryDate}>
+                        {dayjs(selectedDate).format('YY.MM.DD')}
+                      </Text>
+                      <Text style={styles.emotionTag}>작성되지 않음</Text>
+                    </View>
+                    <Image
+                      source={require('../assets/notyet.png')}
+                      style={styles.notyetIcon}
+                    />
+                  </>
+                )}
+              </View>
 
+
+              {getDiaryByDate(selectedDate) ? (
+                <>
                   <Text style={styles.diaryContent}>
                     {(() => {
                       const diary = getDiaryByDate(selectedDate);
-                      const fullDiary = diary
-                        ? mockGetDiaryById(diary.diaryId)
-                        : null;
+                      const fullDiary = diary ? mockGetDiaryById(diary.diaryId) : null;
                       const content = fullDiary?.transformContent ?? '';
                       return content.length > 60
                         ? content.slice(0, 60) + '...'
                         : content;
                     })()}
                   </Text>
-
                   <TouchableOpacity style={styles.diaryButton}>
                     <Text style={styles.diaryButtonText}>일기 보러가기</Text>
                   </TouchableOpacity>
@@ -176,15 +191,16 @@ export default function MainHome() {
               ) : (
                 <>
                   <Text style={styles.noDiaryText}>
-                    이 날엔 아직 일기가 없어요!
+                    아직 일기가 작성되지 않았어요!
                   </Text>
                   <TouchableOpacity style={styles.diaryButton}>
-                    <Text style={styles.diaryButtonText}>일기 쓰러 가쉴?</Text>
+                    <Text style={styles.diaryButtonText}>일기 쓰러가기</Text>
                   </TouchableOpacity>
                 </>
               )}
             </View>
           )}
+
 
           {/* ✅ 하단 바 */}
           <View style={styles.bottomBar}>

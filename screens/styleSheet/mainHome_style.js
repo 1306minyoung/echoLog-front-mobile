@@ -76,15 +76,7 @@ export const styles = StyleSheet.create({
     color: '#576146',
   },
 
-  // ✅ 선택된 날짜 텍스트 배경 동그라미
-  selectedDay: {
-    backgroundColor: '#cdeccd',
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+ 
 
   // 감정 아이콘 자리
   iconCircle: {
@@ -97,12 +89,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  // ✅ 선택된 감정 아이콘 강조 테두리
-  iconSelectedCircle: {
-    borderWidth: 2,
-    borderColor: '#6cb66f',
-    borderRadius: 20,
-  },
 
   // 감정 이미지
   dayIcon: {
@@ -114,29 +100,43 @@ export const styles = StyleSheet.create({
   // ✅ 일기 카드 (하단 바 위에 띄우기 위해 position 변경)
   diaryCard: {
     position: 'absolute',
-    bottom: 80, // 하단 바보다 살짝 위로
-    left: 16,
-    right: 16,
+    left: 0,
+    right: 0,
+    bottom: 0, // 하단 바 높이만큼 위로
     backgroundColor: 'white',
     padding: 20,
-    borderRadius: 24,
-    zIndex: 10,
-    elevation: 10,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    zIndex: 100,
+    elevation: 20,
     shadowColor: '#000',
     shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: -2 },
     shadowRadius: 6,
   },
 
-  cardHeader: {
+  cardHeaderLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
+    justifyContent: 'flex-start', // 왼쪽 정렬
+    paddingHorizontal: 16,
+  },
+  
+  cardHeaderRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between', // 좌우 양쪽 정렬
+    paddingHorizontal: 16,
   },
   emotionIcon: {
     width: 40,
     height: 40,
     borderRadius: 20,
+  },
+  notyetIcon: {
+    width: 60,
+    height: 60,
+    resizeMode: 'contain',
   },
   diaryDate: {
     fontWeight: 'bold',
@@ -154,12 +154,15 @@ export const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 16,
     lineHeight: 22,
+    paddingHorizontal: 20,
   },
   diaryButton: {
     backgroundColor: '#dba5a5',
-    paddingVertical: 10,
+    paddingVertical: 15,
+    paddingHorizontal: 50,
     borderRadius: 25,
     alignItems: 'center',
+    alignSelf: 'center',
   },
   diaryButtonText: {
     color: 'white',
@@ -167,11 +170,11 @@ export const styles = StyleSheet.create({
   },
   noDiaryText: {
     fontSize: 14,
-    color: '#575757',
+    color: 'white',
     marginBottom: 20,
   },
 
-  // ✅ 추가: 하단 바 스타일
+  // 추가: 하단 바 스타일
   bottomBar: {
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -184,8 +187,8 @@ export const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    height: 60,
-    zIndex: 5,
+    height: 80,
+    zIndex: 10,
   },
   bottomItem: {
     alignItems: 'center',
