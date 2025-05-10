@@ -38,7 +38,6 @@ export default function MainHome({ route }) {
 
   const fetchDiaryDetail = async (diaryId) => {
     if (diaryDetailMap[diaryId]) return;
-
     try {
       const res = await fetch(
           `http://ceprj.gachon.ac.kr:60021/api/diaries/${diaryId}`,
@@ -192,7 +191,15 @@ export default function MainHome({ route }) {
                   ) : (
                       <>
                         <Text style={styles.noDiaryText}>아직 일기가 작성되지 않았어요!</Text>
-                        <TouchableOpacity style={styles.diaryButton}>
+                        <TouchableOpacity
+                            style={styles.diaryButton}
+                            onPress={() => {
+                              navigation.navigate('diaryPostSample', {
+                                selectedDate: selectedDate,
+                                accessToken: accessToken
+                              });
+                            }}
+                        >
                           <Text style={styles.diaryButtonText}>일기 쓰러가기</Text>
                         </TouchableOpacity>
                       </>
