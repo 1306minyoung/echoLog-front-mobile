@@ -16,7 +16,8 @@ export const styles = StyleSheet.create({
       paddingHorizontal: 20,
       paddingBottom: 40,
       minHeight: screenHeight,
-    },divider: {
+    },
+    divider: {
       height: 1,
       backgroundColor: '#ccc',
       marginVertical: 24, 

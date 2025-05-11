@@ -3,7 +3,7 @@ import {
   Modal, View, Text, Image, ScrollView, TouchableOpacity
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { emotionImage } from '../assets/emotions.js';
+import { emotionImage, emotionTypeToKorean } from '../assets/emotions.js';
 import { styles } from './styleSheet/writtenDiaryNFeedback_style.js';
 
 const WrittenDiaryDetailScreen = ({ route }) => {
@@ -102,7 +102,7 @@ const WrittenDiaryDetailScreen = ({ route }) => {
                   year: '2-digit', month: '2-digit', day: '2-digit'
                 })}
               </Text>
-              <Text style={styles.tag}>#{emotion.emotionType}</Text>
+              <Text style={styles.tag}>{emotionTypeToKorean(emotion.emotionType)}</Text>
             </View>
             <View style={styles.buttonGroup}>
               <TouchableOpacity style={styles.smallButton_won} onPress={() => setShowOriginal(true)}>

@@ -19,6 +19,13 @@ export default function MainHome({ route }) {
   const [diaryData, setDiaryData] = useState([]);
   const [diaryDetailMap, setDiaryDetailMap] = useState({});
 
+  // ✅ DiaryConfirm에서 넘어온 날짜가 있으면 자동 선택
+  useEffect(() => {
+    if (route.params?.selectedDate) {
+      setSelectedDate(route.params.selectedDate);
+    }
+  }, [route.params?.selectedDate]);
+
   const fetchDiaryList = async () => {
     try {
       const res = await fetch(

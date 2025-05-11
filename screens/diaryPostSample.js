@@ -17,8 +17,7 @@ export default function DiaryPostSample() {
     const { selectedDate, accessToken } = route.params;
     const [content, setContent] = useState('');
 
-    // ✅ 서버 주소는 환경에 따라 바꿀 수 있게 분리
-    const BASE_URL = 'http://ceprj.gachon.ac.kr:60021'; // 또는 'http://localhost:8080'
+    const BASE_URL = 'http://ceprj.gachon.ac.kr:60021';
 
     const handleSubmit = async () => {
         if (!content.trim()) {
@@ -40,8 +39,12 @@ export default function DiaryPostSample() {
             });
 
             if (!res.ok) throw new Error(`등록 실패: ${res.status}`);
+
+            const resJson = await res.json();
+            const { diaryId } = resJson;
+
             Alert.alert('일기 등록 완료!');
-            navigation.goBack();
+            navigation.navigate('DiaryConfirm', { diaryId, accessToken }); // ✅ 화면 이동
         } catch (err) {
             Alert.alert('등록 오류', err.message);
         }
