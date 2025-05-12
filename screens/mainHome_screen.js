@@ -23,8 +23,37 @@ export default function MainHome({ route }) {
   useEffect(() => {
     if (route.params?.selectedDate) {
       setSelectedDate(route.params.selectedDate);
+      const parsed = dayjs(route.params.selectedDate);
+      setCurrentDate(parsed);
     }
   }, [route.params?.selectedDate]);
+
+  // ✅ 강제 fetch 함수
+  const fetchDiaryListFor = async (targetDate) => {
+    try {
+      const res = await fetch(
+        `http://ceprj.gachon.ac.kr:60021/api/diaries?year=${targetDate.year()}&month=${targetDate.month() + 1}`,
+        {
+          method: 'GET',
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
+      if (!res.ok) throw new Error('일기 목록 가져오기 실패');
+      const data = await res.json();
+      setDiaryData(data.diaries || []);
+    } catch (err) {
+      console.error('❌ diary list (forced) error:', err.message);
+    }
+  };
+
+  // ✅ selectedDate로부터 강제 fetch 실행
+  useEffect(() => {
+    if (route.params?.selectedDate) {
+      const parsed = dayjs(route.params.selectedDate);
+      fetchDiaryListFor(parsed);
+    }
+  }, [route.params?.selectedDate]);
+
 
   const fetchDiaryList = async () => {
     try {
