@@ -35,61 +35,63 @@ export default function DiaryConfirmScreen({ route }) {
 
   if (loading || !diary) {
     return (
-      <View style={styles.container}>
-        <ActivityIndicator size="large" />
-      </View>
+        <View style={styles.container}>
+          <ActivityIndicator size="large" />
+        </View>
     );
   }
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.whiteBox}>
-        {/* 상단 네비게이션 */}
-        <View style={styles.navRow}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Text style={styles.backButton}>{'<'}</Text>
-          </TouchableOpacity>
-          <Image source={require('../assets/echoLog_logo.png')} style={styles.logo} />
-        </View>
+      <ScrollView style={styles.container}>
+        <View style={styles.whiteBox}>
+          {/* 상단 네비게이션 */}
+          <View style={styles.navRow}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Text style={styles.backButton}>{'<'}</Text>
+            </TouchableOpacity>
+            <Image source={require('../assets/echoLog_logo.png')} style={styles.logo} />
+          </View>
 
-        {/* 날짜 + 아래 선 */}
-        <View style={styles.metaInfoRow}>
-          <View style={styles.metaTextGroup}>
-            <Text style={styles.date}>
-              {dayjs(diary.writtenDate).format('YY.MM.DD')}
-            </Text>
+          {/* 날짜 + 아래 선 */}
+          <View style={styles.metaInfoRow}>
+            <View style={styles.metaTextGroup}>
+              <Text style={styles.date}>
+                {dayjs(diary.writtenDate).format('YY.MM.DD')}
+              </Text>
+            </View>
+          </View>
+          <View style={styles.divider} />
+
+          {/* 일기 내용 */}
+          <Text style={[styles.diaryText, { marginBottom: 30 }]}>
+            {diary.transformContent || '변환된 일기 내용이 없습니다.'}
+          </Text>
+
+          <View style={styles.divider} />
+
+          {/* 버튼 그룹 */}
+          <View style={styles.centeredButtonGroup}>
+            <TouchableOpacity
+                style={styles.smallButton_su}
+                onPress={() => navigation.navigate('DiaryEditScreen', { diaryId })}
+            >
+              <Text style={styles.buttonText}>수정할래요</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+                style={styles.smallButton_yee}
+                onPress={() =>
+                    navigation.navigate('MainHome', {
+                      selectedDate: diary.writtenDate,
+                      accessToken: accessToken
+                    })
+                }
+            >
+              <Text style={styles.buttonText}>이걸로 쓸래요</Text>
+            </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.divider} />
-
-        {/* 일기 내용 (❌ diaryContentBox 없이) */}
-        <Text style={[styles.diaryText, { marginBottom: 30 }]}>
-          {diary.transformContent || '변환된 일기 내용이 없습니다.'}
-        </Text>
-
-        <View style={styles.divider} />
-
-        {/* 버튼 그룹 - 가운데 정렬 + 간격 */}
-        <View style={styles.centeredButtonGroup}>
-          <TouchableOpacity
-            style={styles.smallButton_su}
-            onPress={() => navigation.navigate('DiaryEditScreen', { diaryId })}
-          > 
-            <Text style={styles.buttonText}>수정할래요</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.smallButton_yee}
-            onPress={() =>
-              navigation.navigate('MainHome', {
-                selectedDate: diary.writtenDate, // ✅ 날짜 넘김
-              })
-            }
-          >
-            <Text style={styles.buttonText}>이걸로 쓸래요</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
   );
 }
 

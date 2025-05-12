@@ -19,7 +19,6 @@ export default function MainHome({ route }) {
   const [diaryData, setDiaryData] = useState([]);
   const [diaryDetailMap, setDiaryDetailMap] = useState({});
 
-  // ✅ DiaryConfirm에서 넘어온 날짜가 있으면 자동 선택
   useEffect(() => {
     if (route.params?.selectedDate) {
       setSelectedDate(route.params.selectedDate);
@@ -28,15 +27,14 @@ export default function MainHome({ route }) {
     }
   }, [route.params?.selectedDate]);
 
-  // ✅ 강제 fetch 함수
   const fetchDiaryListFor = async (targetDate) => {
     try {
       const res = await fetch(
-        `http://ceprj.gachon.ac.kr:60021/api/diaries?year=${targetDate.year()}&month=${targetDate.month() + 1}`,
-        {
-          method: 'GET',
-          headers: { Authorization: `Bearer ${accessToken}` },
-        }
+          `http://ceprj.gachon.ac.kr:60021/api/diaries?year=${targetDate.year()}&month=${targetDate.month() + 1}`,
+          {
+            method: 'GET',
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
       );
       if (!res.ok) throw new Error('일기 목록 가져오기 실패');
       const data = await res.json();
@@ -46,7 +44,6 @@ export default function MainHome({ route }) {
     }
   };
 
-  // ✅ selectedDate로부터 강제 fetch 실행
   useEffect(() => {
     if (route.params?.selectedDate) {
       const parsed = dayjs(route.params.selectedDate);
@@ -54,6 +51,13 @@ export default function MainHome({ route }) {
     }
   }, [route.params?.selectedDate]);
 
+  // ✅ 자동으로 상세 불러오기
+  useEffect(() => {
+    if (route.params?.selectedDate) {
+      const found = diaryData.find(d => d.writtenDate === route.params.selectedDate);
+      if (found) fetchDiaryDetail(found.diaryId);
+    }
+  }, [diaryData, route.params?.selectedDate]);
 
   const fetchDiaryList = async () => {
     try {
