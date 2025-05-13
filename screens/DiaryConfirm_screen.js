@@ -71,12 +71,17 @@ export default function DiaryConfirmScreen({ route }) {
 
           {/* 버튼 그룹 */}
           <View style={styles.centeredButtonGroup}>
-            <TouchableOpacity
-                style={styles.smallButton_su}
-                onPress={() => navigation.navigate('DiaryEditScreen', { diaryId })}
-            >
-              <Text style={styles.buttonText}>수정할래요</Text>
-            </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.smallButton_su}
+            onPress={() =>
+              navigation.navigate('DiaryModify', {
+                diaryId,
+                accessToken,
+              })
+            }
+          >
+            <Text style={styles.buttonText}>수정할래요</Text>
+          </TouchableOpacity>
 
             <TouchableOpacity
                 style={styles.smallButton_yee}

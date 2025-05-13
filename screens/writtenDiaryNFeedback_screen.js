@@ -159,7 +159,7 @@ const WrittenDiaryDetailScreen = ({ route }) => {
                   요즘 너무 우울해하는 것 같아 걱정돼…🥲{'\n'}
                   전문가 상담 또는 기관의 도움을 받는 걸 추천해!
                 </Text>
-                <Text style={styles.depressionContact}>상담번호: 000-0000-0000{'\n'}기관번호: 000-0000-0000</Text>
+                <Text style={styles.depressionContact}>👇정신건강 위기상담전화👇{'\n'}1577-0199 또는 129</Text>
                 <Text style={styles.depressionScore}>
                   {'\n'}최근 2주 간 일기 기반 점수{'\n'}• PHQ-9: {depression.phq9Score}점{'\n'}• GAD-7: {depression.gad7Score}점
                 </Text>
@@ -193,9 +193,13 @@ const WrittenDiaryDetailScreen = ({ route }) => {
                   <TouchableOpacity style={styles.modalBtnCancel} onPress={() => setIsRewriteModalVisible(false)}>
                     <Text style={styles.modalBtnText}>아니요</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.modalBtnConfirm} onPress={() => {
+                  <TouchableOpacity style={styles.modalBtnConfirm} 
+                  onPress={() => {
                     setIsRewriteModalVisible(false);
-                    // TODO: 수정 페이지 이동
+                    navigation.navigate('DiaryModify', {
+                      diaryId,
+                      accessToken,
+                    });
                   }}>
                     <Text style={styles.modalBtnTextWhite}>할래요</Text>
                   </TouchableOpacity>

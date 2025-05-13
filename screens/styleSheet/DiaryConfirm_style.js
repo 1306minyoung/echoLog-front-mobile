@@ -30,7 +30,7 @@ export const styles = StyleSheet.create({
   },
   backButton: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: 600,
   },
   logo: {
     width: 80,

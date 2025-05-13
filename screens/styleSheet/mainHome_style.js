@@ -195,10 +195,10 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   bottomIcon: {
-    width: 24,
-    height: 24,
-    marginBottom: 4,
-    tintColor: '#666',
+    width: 50,
+    height: 50,
+    marginBottom: 1,
+    //tintColor: '#666',
   },
   bottomLabel: {
     fontSize: 12,
