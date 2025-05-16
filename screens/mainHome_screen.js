@@ -14,7 +14,7 @@ export default function MainHome({ route }) {
   const { accessToken } = route.params;
   const navigation = useNavigation();
 
-  const [currentDate, setCurrentDate] = useState(dayjs('2025-04-01'));
+  const [currentDate, setCurrentDate] = useState(dayjs().startOf('month'));
   const [selectedDate, setSelectedDate] = useState(null);
   const [diaryData, setDiaryData] = useState([]);
   const [diaryDetailMap, setDiaryDetailMap] = useState({});
