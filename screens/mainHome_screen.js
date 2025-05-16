@@ -51,7 +51,6 @@ export default function MainHome({ route }) {
     }
   }, [route.params?.selectedDate]);
 
-  // ✅ 자동으로 상세 불러오기
   useEffect(() => {
     if (route.params?.selectedDate) {
       const found = diaryData.find(d => d.writtenDate === route.params.selectedDate);
@@ -247,15 +246,21 @@ export default function MainHome({ route }) {
                 </View>
             )}
 
+            {/* ✅ 하단 네비게이션 바 */}
             <View style={styles.bottomBar}>
               <TouchableOpacity style={styles.bottomItem}>
                 <Image source={logoutIcon} style={styles.bottomIcon} />
                 <Text style={styles.bottomLabel}>로그아웃</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.bottomItem}>
+
+              <TouchableOpacity
+                  style={styles.bottomItem}
+                  onPress={() => navigation.navigate('RecapScreen', { accessToken })}
+              >
                 <Image source={recapIcon} style={styles.bottomIcon} />
                 <Text style={styles.bottomLabel}>감정통계</Text>
               </TouchableOpacity>
+
               <TouchableOpacity style={styles.bottomItem}>
                 <Image source={settingsIcon} style={styles.bottomIcon} />
                 <Text style={styles.bottomLabel}>설정</Text>
