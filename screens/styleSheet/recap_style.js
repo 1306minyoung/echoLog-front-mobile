@@ -58,6 +58,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     marginBottom: 5,
     position: 'relative',
+    marginTop: 20,
   },
   barLine: {
     position: 'absolute',
