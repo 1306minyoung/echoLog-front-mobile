@@ -1,53 +1,71 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
+const screenHeight = Dimensions.get('window').height;
 
 export const styles = StyleSheet.create({
+  whiteBox: {
+    backgroundColor: '#F2F2F2',
+    borderTopLeftRadius: 50,
+    borderTopRightRadius: 50,
+    marginTop:70,
+    paddingTop: 10,
+    paddingBottom: 40,
+    paddingHorizontal: 20,
+    minHeight: screenHeight, 
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -4 }, 
+    shadowOpacity: 0.08,
+    shadowRadius: 10,
+    elevation: 8, 
+  },
+  
   container: {
     flex: 1,
     backgroundColor: '#E6F0E7',
-    paddingHorizontal: 20,
   },
   headerRow: {
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 20,
-    marginBottom: 10,
+    marginBottom: 20,
     justifyContent: 'space-between',
   },
   backButton: {
     fontSize: 24,
     color: '#555',
-  },
-  logoText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#4A715A',
+    fontWeight: 600,
   },
   chartContainer: {
     backgroundColor: '#fff',
     borderRadius: 20,
-    padding: 20,
-    marginVertical: 10,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 4,
-    alignItems: 'center',
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    marginTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-around',
+    position: 'relative',
+    borderWidth: 0.8,
+    borderColor: '#C6C6C6',
   },
   barItem: {
     alignItems: 'center',
-    marginHorizontal: 6,
+    width: 40,
   },
   barArea: {
     width: 30,
     height: 120,
-    backgroundColor: '#F2F2F2',
     borderRadius: 10,
     justifyContent: 'flex-end',
-    overflow: 'hidden',
     marginBottom: 5,
+    position: 'relative',
+  },
+  barLine: {
+    position: 'absolute',
+    bottom: 48,
+    left: 20,
+    right: 20,
+    height: 1,
+    backgroundColor: '#C6C6C6',
   },
   bar: {
     width: '100%',
@@ -58,17 +76,23 @@ export const styles = StyleSheet.create({
   barHighlight: {
     backgroundColor: '#B56C6C',
   },
-  barCount: {
-    fontSize: 12,
-    color: '#333',
-    marginTop: 5,
-  },
   barLabel: {
     fontSize: 14,
     color: '#4A715A',
     marginTop: 3,
     fontWeight: '500',
   },
+  barCountInBar: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    fontSize: 12,
+    color: '#739774',
+    fontWeight:'600',
+    textAlign: 'center',
+    marginBottom: 2, 
+  },
+  
   summaryText: {
     textAlign: 'center',
     fontSize: 16,
@@ -84,11 +108,8 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 16,
     marginVertical: 20,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 3,
+    borderWidth: 0.8,
+    borderColor: '#C6C6C6',
   },
   feedbackText: {
     fontSize: 15,
@@ -96,8 +117,14 @@ export const styles = StyleSheet.create({
     color: '#333',
   },
   logoImage: {
-    width: 80,       // 원본 비율 맞게 조절
-    height: 20,
+    width: 60,  
+    height: 40,
+    resizeMode: 'contain',
+  },
+  feedbackImage: {
+    width: 60,
+    height: 60,
+    marginLeft: 10,
     resizeMode: 'contain',
   },
 });

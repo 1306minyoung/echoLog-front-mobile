@@ -15,6 +15,11 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 40,
     minHeight: screenHeight,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -4 }, 
+    shadowOpacity: 0.08,
+    shadowRadius: 10,
+    elevation: 8, 
   },
   divider: {
     height: 1,
