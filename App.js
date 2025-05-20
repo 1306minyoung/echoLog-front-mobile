@@ -7,16 +7,17 @@ import SplashScreen from './screens/splash_screen';
 import MainHomeScreen from './screens/mainHome_screen';
 import WrittenDiaryDetailScreen from './screens/writtenDiaryNFeedback_screen';
 import DiaryConfirmScreen from './screens/DiaryConfirm_screen';
-import loginSample from './screens/loginSample';
+import LoginSample from './screens/loginSample';
 import diaryPostSample from './screens/diaryPostSample';
 import DiaryModifyScreen from './screens/DiaryModify_screen';
 import RecapScreen from './screens/recap_screen';
+import loginSample from './screens/loginSample';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="loginSample">
+      <Stack.Navigator initialRouteName="LoginSample">
 
         <Stack.Screen
           name="Splash"
@@ -41,8 +42,8 @@ export default function App() {
         />
 
         <Stack.Screen
-            name="loginSample"
-            component={loginSample}
+            name="LoginSample"
+            component={LoginSample}
             options={{ headerShown: false }}
 
         />
