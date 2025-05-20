@@ -7,18 +7,18 @@ export const styles = StyleSheet.create({
     backgroundColor: '#F2F2F2',
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
-    marginTop:70,
+    marginTop: 70,
     paddingTop: 10,
     paddingBottom: 40,
     paddingHorizontal: 20,
-    minHeight: screenHeight, 
+    minHeight: screenHeight,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: -4 }, 
+    shadowOffset: { width: 0, height: -4 },
     shadowOpacity: 0.08,
     shadowRadius: 10,
-    elevation: 8, 
+    elevation: 8,
   },
-  
+
   container: {
     flex: 1,
     backgroundColor: '#E6F0E7',
@@ -33,7 +33,7 @@ export const styles = StyleSheet.create({
   backButton: {
     fontSize: 24,
     color: '#555',
-    fontWeight: 600,
+    fontWeight: '600',
   },
   chartContainer: {
     backgroundColor: '#fff',
@@ -47,15 +47,6 @@ export const styles = StyleSheet.create({
     borderWidth: 0.8,
     borderColor: '#C6C6C6',
   },
-  baseline: {
-    position: 'absolute',
-    left: 10,
-    right: 10,
-    bottom: 41, //막대 아래 여백만큼 조절
-    height: 1,
-    backgroundColor: '#4A715A',
-    zIndex: 1,
-  },
   barItem: {
     alignItems: 'center',
     width: 40,
@@ -65,9 +56,9 @@ export const styles = StyleSheet.create({
     height: 120,
     borderRadius: 10,
     justifyContent: 'flex-end',
-    marginBottom: 5,
-    position: 'relative',
     marginTop: 20,
+    marginBottom: 1, // ✅ bar 아래 라벨 공간 확보
+    position: 'relative',
     alignItems: 'center',
   },
   bar: {
@@ -75,16 +66,10 @@ export const styles = StyleSheet.create({
     backgroundColor: '#D4A5A5',
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    zIndex:1,
+    zIndex: 1,
   },
   barHighlight: {
     backgroundColor: '#B56C6C',
-  },
-  barLabel: {
-    fontSize: 14,
-    color: '#4A715A',
-    marginTop: 3,
-    fontWeight: '500',
   },
   barCountInBar: {
     position: 'absolute',
@@ -92,11 +77,24 @@ export const styles = StyleSheet.create({
     right: 0,
     fontSize: 12,
     color: '#739774',
-    fontWeight:'600',
+    fontWeight: '600',
     textAlign: 'center',
-    marginBottom: 2, 
+    marginBottom: 2,
   },
-  
+
+  // ✅ 라벨 아래만 보여줄 때 (실선 대신 라벨 스타일 강조)
+  barLabel: {
+    fontSize: 14,
+    color: '#4A715A',
+    fontWeight: '600',
+    borderTopWidth: 1,
+    borderColor: '#D0D0D0',
+    paddingTop: 7,
+    paddingBottom:4,
+    width: 40, // ✅ 선 길이 고정 (또는 '100%')
+    textAlign: 'center', // ✅ 가운데 정렬 유지
+  },
+
   summaryText: {
     textAlign: 'center',
     fontSize: 16,
@@ -121,7 +119,7 @@ export const styles = StyleSheet.create({
     color: '#333',
   },
   logoImage: {
-    width: 60,  
+    width: 60,
     height: 40,
     resizeMode: 'contain',
   },
@@ -132,3 +130,4 @@ export const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
 });
+

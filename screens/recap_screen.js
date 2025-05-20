@@ -88,9 +88,6 @@ export default function RecapScreen({ route }) {
 
         {/* 차트 */}
         <View style={styles.chartContainer}>
-          {/* ✅ 기준선 하나 추가 */}
-          <View style={styles.baseline} />
-
           {emotionData.map((e, idx) => {
             const barHeight = Math.max((e.count / maxCount) * 100, 8);
             const isMax = mostFeltEmotions.some(m => m.type === e.type);
@@ -109,13 +106,18 @@ export default function RecapScreen({ route }) {
                     ]}
                   />
                 </View>
-                <Text style={styles.barLabel}>{e.label}</Text>
+
+                {/* ✅ 실선 + 라벨 묶기 */}
+                <View style={styles.barBaseArea}>
+                  <View style={styles.barBaseLine} />
+                  <Text style={styles.barLabel}>{e.label}</Text>
+                </View>
               </View>
             );
           })}
         </View>
 
-        {/* 요약 텍스트 */}
+        {/* 요약 문장 */}
         <Text style={styles.summaryText}>
           최근 14일 동안 제일 많았던 감정은{'\n'}
           <Text style={styles.highlight}>
@@ -137,4 +139,3 @@ export default function RecapScreen({ route }) {
     </ScrollView>
   );
 }
-
