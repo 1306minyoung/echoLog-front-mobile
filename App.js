@@ -16,7 +16,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="RecapScreen">
+      <Stack.Navigator initialRouteName="loginSample">
 
         <Stack.Screen
           name="Splash"

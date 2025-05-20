@@ -3,12 +3,12 @@ import {
   View, Text, ScrollView, TouchableOpacity, ActivityIndicator, Image
 } from 'react-native';
 import { styles } from './styleSheet/recap_style';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation,CommonActions } from '@react-navigation/native';
 import recapImage from '../assets/recap.png';
 
 import { emotionLabelMap, emotionFeedbackMap } from '../assets/emotions';
 
-function getTopEmotion(emotionList) {
+function getTopEmotion(emotionList) { //감정 피드백 하나만 나오게 감정 우선순위 정함
   const priority = ['SAD', 'HURT', 'ANXIETY', 'ANGRY', 'EMBARRASSED', 'JOY'];
   for (const emotion of priority) {
     if (emotionList.some(e => e.type === emotion)) {
@@ -25,23 +25,39 @@ export default function RecapScreen({ route }) {
   const navigation = useNavigation();
 
   useEffect(() => {
-    const dummyData = {
-      ANGRY: 3,
-      ANXIETY: 2,
-      EMBARRASSED: 1,
-      HURT: 4,
-      JOY: 4,
-      SAD: 0,
+    const fetchEmotionData = async () => {
+      try {
+        const response = await fetch('http://ceprj.gachon.ac.kr:60021/api/recap/emotion', {
+          method: 'GET',
+          headers: accessToken
+            ? {
+                Authorization: `Bearer ${accessToken}`,
+                'Content-Type': 'application/json',
+              }
+            : {
+                'Content-Type': 'application/json',
+              },
+        });
+
+        if (!response.ok) throw new Error('서버 응답 오류');
+
+        const data = await response.json(); // {"JOY":4,"SAD":2,...}
+
+        const formatted = Object.entries(data).map(([type, count]) => ({
+          type,
+          label: emotionLabelMap[type],
+          count,
+        }));
+
+        setEmotionData(formatted);
+      } catch (err) {
+        console.error('감정 통계 요청 실패:', err);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    const formatted = Object.entries(dummyData).map(([type, count]) => ({
-      type,
-      label: emotionLabelMap[type],
-      count,
-    }));
-
-    setEmotionData(formatted);
-    setLoading(false);
+    fetchEmotionData();
   }, []);
 
   const maxCount = Math.max(...emotionData.map(e => e.count), 1);
@@ -53,9 +69,17 @@ export default function RecapScreen({ route }) {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.whiteBox}>
-        {/* 👇 헤더를 카드 안으로 이동 */}
         <View style={styles.headerRow}>
-          <TouchableOpacity onPress={() => navigation.navigate('MainHome')}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [{ name: 'MainHome', params: { accessToken } }],
+                })
+              );
+            }}
+          >
             <Text style={styles.backButton}>{'<'}</Text>
           </TouchableOpacity>
           <Image
