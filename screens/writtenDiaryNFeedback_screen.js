@@ -66,7 +66,7 @@ const WrittenDiaryDetailScreen = ({ route }) => {
               'Content-Type': 'application/json',
               Authorization: `Bearer ${accessToken}`,
             },
-            body: JSON.stringify({ userReaction: reaction }),
+            body: JSON.stringify({ userReaction: reaction, content: feedback.content }),
           }
       );
 

@@ -1,13 +1,12 @@
-// ✅ recap_screen.js 수정본
 import React, { useEffect, useState } from 'react';
 import {
-  View, Text, ScrollView, TouchableOpacity, ActivityIndicator, Image, Alert
+  View, Text, ScrollView, TouchableOpacity, ActivityIndicator, Image
 } from 'react-native';
 import { styles } from './styleSheet/recap_style';
 import { useNavigation, CommonActions } from '@react-navigation/native';
 import recapImage from '../assets/recap.png';
 
-import { emotionLabelMap, emotionFeedbackMap } from '../assets/emotions';
+import { emotionLabelMap, emotionFeedbackMap, emotionLabelMap_e } from '../assets/emotions';
 
 function getTopEmotion(emotionList) {
   const priority = ['SAD', 'HURT', 'ANXIETY', 'ANGRY', 'EMBARRASSED', 'JOY'];
@@ -27,6 +26,7 @@ export default function RecapScreen({ route }) {
 
   useEffect(() => {
     if (!accessToken) return;
+
     const fetchEmotionData = async () => {
       try {
         const response = await fetch('http://ceprj.gachon.ac.kr:60021/api/recap/emotion', {
@@ -53,6 +53,7 @@ export default function RecapScreen({ route }) {
         setLoading(false);
       }
     };
+
     fetchEmotionData();
   }, [accessToken]);
 
@@ -65,6 +66,7 @@ export default function RecapScreen({ route }) {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.whiteBox}>
+        {/* 헤더 */}
         <View style={styles.headerRow}>
           <TouchableOpacity
             onPress={() => {
@@ -84,8 +86,11 @@ export default function RecapScreen({ route }) {
           />
         </View>
 
+        {/* 차트 */}
         <View style={styles.chartContainer}>
-          <View style={styles.barLine} />
+          {/* ✅ 기준선 하나 추가 */}
+          <View style={styles.baseline} />
+
           {emotionData.map((e, idx) => {
             const barHeight = Math.max((e.count / maxCount) * 100, 8);
             const isMax = mostFeltEmotions.some(m => m.type === e.type);
@@ -110,14 +115,16 @@ export default function RecapScreen({ route }) {
           })}
         </View>
 
+        {/* 요약 텍스트 */}
         <Text style={styles.summaryText}>
           최근 14일 동안 제일 많았던 감정은{'\n'}
           <Text style={styles.highlight}>
-            {mostFeltEmotions.map(e => `‘${e.label}’`).join(', ')}
+            {mostFeltEmotions.map(e => `‘${emotionLabelMap_e[e.type]}’`).join(', ')}
           </Text>
           이었어요.
         </Text>
 
+        {/* 피드백 */}
         <View style={[styles.feedbackCard, { flexDirection: 'row', alignItems: 'center' }]}>
           <View style={{ flex: 1 }}>
             <Text style={styles.feedbackText}>
@@ -130,3 +137,4 @@ export default function RecapScreen({ route }) {
     </ScrollView>
   );
 }
+

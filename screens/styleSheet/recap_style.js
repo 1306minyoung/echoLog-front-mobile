@@ -47,6 +47,15 @@ export const styles = StyleSheet.create({
     borderWidth: 0.8,
     borderColor: '#C6C6C6',
   },
+  baseline: {
+    position: 'absolute',
+    left: 10,
+    right: 10,
+    bottom: 41, //막대 아래 여백만큼 조절
+    height: 1,
+    backgroundColor: '#4A715A',
+    zIndex: 1,
+  },
   barItem: {
     alignItems: 'center',
     width: 40,
@@ -59,20 +68,14 @@ export const styles = StyleSheet.create({
     marginBottom: 5,
     position: 'relative',
     marginTop: 20,
-  },
-  barLine: {
-    position: 'absolute',
-    bottom: 48,
-    left: 20,
-    right: 20,
-    height: 1,
-    backgroundColor: '#C6C6C6',
+    alignItems: 'center',
   },
   bar: {
     width: '100%',
     backgroundColor: '#D4A5A5',
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
+    zIndex:1,
   },
   barHighlight: {
     backgroundColor: '#B56C6C',

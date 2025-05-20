@@ -31,6 +31,15 @@ export const emotionLabelMap = {
   HURT: '상처',
 };
 
+export const emotionLabelMap_e = {
+  JOY: '기쁨😊',
+  ANXIETY: '불안😣',
+  SAD: '슬픔😭',
+  ANGRY: '화남😡',
+  EMBARRASSED: '당황😥',
+  HURT: '상처🤕',
+};
+
 export const emotionFeedbackMap = {
   JOY: `기분 좋은 하루였네요!\n이렇게 웃을 수 있는 날이 있다는 건 정말 소중한 일이에요.\n오늘의 기분을 오래 기억해봐요.\n앞으로도 이런 날들이 자주 찾아올 거예요.`,
   ANXIETY: `불안한 마음이 계속 마음을 흔들었나 봐요.\n하지만 지금 이 순간에 집중해보는 것도 하나의 방법이에요.\n모든 걸 잘 해내지 않아도 괜찮아요.\n천천히, 나만의 속도로 나아가요.`,
