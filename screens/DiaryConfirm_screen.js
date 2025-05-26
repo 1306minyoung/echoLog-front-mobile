@@ -83,17 +83,18 @@ export default function DiaryConfirmScreen({ route }) {
             <Text style={styles.buttonText}>수정할래요</Text>
           </TouchableOpacity>
 
-            <TouchableOpacity
-                style={styles.smallButton_yee}
-                onPress={() =>
-                    navigation.navigate('MainHome', {
-                      selectedDate: diary.writtenDate,
-                      accessToken: accessToken
-                    })
-                }
-            >
-              <Text style={styles.buttonText}>이걸로 쓸래요</Text>
-            </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.smallButton_yee}
+            onPress={() =>
+              navigation.navigate('WrittenDiary', {
+                diaryId: diaryId,
+                accessToken: accessToken
+              })
+            }
+          >
+            <Text style={styles.buttonText}>이걸로 쓸래요</Text>
+          </TouchableOpacity>
+
           </View>
         </View>
       </ScrollView>
