@@ -7,65 +7,83 @@ import SplashScreen from './screens/splash_screen';
 import MainHomeScreen from './screens/mainHome_screen';
 import WrittenDiaryDetailScreen from './screens/writtenDiaryNFeedback_screen';
 import DiaryConfirmScreen from './screens/DiaryConfirm_screen';
-import LoginSample from './screens/loginSample';
+import StartScreen from './screens/StartScreen'; // Import the new StartScreen
+import LoginScreen from './screens/Login';
+import SignUpScreen from './screens/SignUpScreen';
 import diaryPostSample from './screens/diaryPostSample';
 import DiaryModifyScreen from './screens/DiaryModify_screen';
 import RecapScreen from './screens/recap_screen';
-import loginSample from './screens/loginSample';
+import DiaryWriteScreen from './screens/DiaryWriteScreen';
+import SettingsScreen from './screens/SettingsScreen';
 
 const Stack = createNativeStackNavigator();
+
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="LoginSample">
-
+      {/* Set StartScreen as the initial route */}
+      <Stack.Navigator initialRouteName="Start">
+        <Stack.Screen
+          name="Start" // Screen name for StartScreen
+          component={StartScreen}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="Splash"
           component={SplashScreen}
-          options={{ headerShown: false }} 
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="WrittenDiary"
           component={WrittenDiaryDetailScreen}
-          options={{ headerShown: false }} 
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="MainHome"
           component={MainHomeScreen}
           options={{ headerShown: false }}
         />
-
         <Stack.Screen
           name="DiaryConfirm"
           component={DiaryConfirmScreen}
           options={{ headerShown: false }}
         />
-
         <Stack.Screen
-            name="LoginSample"
-            component={LoginSample}
-            options={{ headerShown: false }}
-
+          name="Login" // Changed from "LoginScreen" to "Login" to match StartScreen's navigation
+          component={LoginScreen}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
-            name="diaryPostSample"
-            component={diaryPostSample}
-            options={{ headerShown: false }}
+          name="SignUp" // Name used by StartScreen to navigate
+          component={SignUpScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="diaryPostSample"
+          component={diaryPostSample}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="DiaryModify"
           component={DiaryModifyScreen}
-          options={{ headerShown: false }} 
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="RecapScreen"
           component={RecapScreen}
-          options={{ headerShown: false }} 
+          options={{ headerShown: false }}
         />
-        
-    
+        <Stack.Screen
+          name="DiaryWriteScreen"
+          component={DiaryWriteScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Settings"
+          component={SettingsScreen}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
