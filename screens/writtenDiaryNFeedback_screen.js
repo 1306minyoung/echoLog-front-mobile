@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Modal, View, Text, Image, ScrollView, TouchableOpacity, BackHandler
+  Modal, View, Text, Image, ScrollView, TouchableOpacity, BackHandler, StyleSheet
 } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { emotionImage, emotionTypeToKorean } from '../assets/emotions.js';
 import { styles } from './styleSheet/writtenDiaryNFeedback_style.js';
 import EmotionAnalysisAlert from './emotionAlert_screen.js';
+import { BlurView } from 'expo-blur';
 
 const WrittenDiaryDetailScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -14,7 +15,8 @@ const WrittenDiaryDetailScreen = ({ route }) => {
     accessToken,
     emotionType,
     isDepressed: isDepressedParam,
-    showEmotionAlert
+    showEmotionAlert,
+    showFeedbackBlur
   } = route.params ?? {};
 
   const [diary, setDiary] = useState(null);
@@ -25,6 +27,7 @@ const WrittenDiaryDetailScreen = ({ route }) => {
   const [showOriginal, setShowOriginal] = useState(false);
   const [isRewriteModalVisible, setIsRewriteModalVisible] = useState(false);
   const [showAlert, setShowAlert] = useState(showEmotionAlert ?? false);
+  const [isFeedbackBlurred, setIsFeedbackBlurred] = useState(showFeedbackBlur ?? false);
 
   useEffect(() => {
     fetchAllDiaryData();
@@ -51,8 +54,9 @@ const WrittenDiaryDetailScreen = ({ route }) => {
         return true;
       };
 
-      BackHandler.addEventListener('hardwareBackPress', onBackPress);
-      return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+      const backHandler = BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+      return () => backHandler.remove(); // ✅ 이렇게 수정!
     }, [diary])
   );
 
@@ -156,6 +160,31 @@ const WrittenDiaryDetailScreen = ({ route }) => {
           <View style={styles.feedbackCard}>
             <Image source={require('../assets/feedback.png')} style={styles.characterImage} />
             <View style={styles.feedbackBubble}>
+
+              {/* 🔍 블러 조건 상태 확인 */}
+              {(() => {
+                console.log('🧊 isFeedbackBlurred 상태:', isFeedbackBlurred);
+
+                if (isFeedbackBlurred) {
+                  return (
+                    <TouchableOpacity
+                      activeOpacity={0.9}
+                      style={[StyleSheet.absoluteFillObject, { zIndex: 10 }]}
+                      onPress={() => setIsFeedbackBlurred(false)}
+                    >
+                      <BlurView intensity={80} tint="light" //백그라운드 색깔 임시
+                       style={[styles.blurredOverlay, { backgroundColor: 'rgba(230, 240, 231, 0.7)' }]}>
+                        <Text style={styles.blurredText}>
+                          AI 햄식이가 당신을 위한 {'\n'}맞춤 피드백을 준비했어요!
+                          {'\n'}눌러서 확인해보실래요? 😶‍🌫️
+                        </Text>
+                      </BlurView>
+                    </TouchableOpacity>
+                  );
+                }
+                return null;
+              })()}
+
               <Text style={styles.feedbackText}>{feedback.content}</Text>
               <View style={styles.reactionContainer}>
                 <Text style={styles.likeit}>맘에 들었나요?</Text>
@@ -183,12 +212,11 @@ const WrittenDiaryDetailScreen = ({ route }) => {
             </View>
           </View>
 
+
           {depression.result && (
             <View style={styles.depressionBox}>
               <Text style={styles.depressionTitle}>
-                최근 14일간의 일기를 분석해봤는데,{'\n'}
-                요즘 너무 우울해하는 것 같아 걱정돼…🥲{'\n'}
-                전문가 상담 또는 기관의 도움을 받는 걸 추천해!
+                최근 14일간의 일기를 분석해봤는데,{'\n'}요즘 너무 우울해하는 것 같아 걱정돼…🥲{'\n'}전문가 상담 또는 기관의 도움을 받는 걸 추천해!
               </Text>
               <Text style={styles.depressionContact}>👇정신건강 위기상담전화👇{'\n'}1577-0199 또는 129</Text>
               <Text style={styles.depressionScore}>
@@ -254,5 +282,4 @@ const WrittenDiaryDetailScreen = ({ route }) => {
   );
 };
 
-export default WrittenDiaryDetailScreen
-
+export default WrittenDiaryDetailScreen;

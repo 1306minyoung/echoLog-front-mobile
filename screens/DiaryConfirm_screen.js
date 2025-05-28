@@ -67,6 +67,7 @@ export default function DiaryConfirmScreen({ route }) {
         emotionType,
         isDepressed: depData.result === true,
         showEmotionAlert: true, // ✅ 모달 띄우기
+        showFeedbackBlur: true, //새로 수정!!!
       });
     } catch (error) {
       console.error('❌ 확정 처리 실패:', error.message);

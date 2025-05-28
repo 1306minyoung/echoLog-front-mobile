@@ -99,6 +99,8 @@ export default function DiaryModifyScreen({ route }) {
         emotionType, // ✅ 감정 타입 넘김
         isDepressed: depressionData.result === true,
         showEmotionAlert: (from === 'DiaryConfirm' || from === 'writtenDiary'),
+        showFeedbackBlur: true,
+
       });
 
     } catch (err) {
