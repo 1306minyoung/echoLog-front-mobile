@@ -14,7 +14,8 @@ import DiaryModifyScreen from './screens/DiaryModify_screen';
 import RecapScreen from './screens/recap_screen';
 import DiaryWriteScreen from './screens/DiaryWriteScreen';
 import SettingsScreen from './screens/SettingsScreen';
-import EmotionAnalysisAlert from './screens/emotionAlert_screen';
+import AnnouncementsScreen from './screens/AnnouncementsScreen'; 
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -78,9 +79,9 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="EmotionAlert"
-          component={EmotionAnalysisAlert}
-          options={{ headerShown: false }}
+          name="Announcements" 
+          component={AnnouncementsScreen}
+          options={{ headerShown: false }} 
         />
       </Stack.Navigator>
     </NavigationContainer>

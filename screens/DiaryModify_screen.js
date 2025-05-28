@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import {
-  View, Text, TouchableOpacity, ScrollView, TextInput, Alert
+  View, Text, TouchableOpacity, ScrollView, Image, TextInput, Alert
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import { styles } from './styleSheet/DiaryModify_style';
 
 export default function DiaryModifyScreen({ route }) {
-  const { diaryId, accessToken, from } = route?.params ?? {};
+  const { diaryId, accessToken } = route?.params ?? {};
   const navigation = useNavigation();
   const [diary, setDiary] = useState(null);
   const [content, setContent] = useState('');
 
-  // ✅ 일기 상세 조회
+  // ✅ 일기 상세 조회 (GET /api/diaries/{diaryId})
   useEffect(() => {
     fetch(`http://ceprj.gachon.ac.kr:60021/api/diaries/${diaryId}`, {
       headers: {
@@ -33,7 +33,7 @@ export default function DiaryModifyScreen({ route }) {
       });
   }, [diaryId]);
 
-  // ✅ 등록 버튼 로직
+  // ✅ 등록 버튼 → PUT /api/transform-diaries/{transformDiaryId}
   const handleSubmit = async () => {
     try {
       const { transformDiaryId } = diary;
@@ -42,8 +42,7 @@ export default function DiaryModifyScreen({ route }) {
         return;
       }
 
-      // 1. 변환된 일기 업데이트
-      const res1 = await fetch(
+      const response = await fetch(
         `http://ceprj.gachon.ac.kr:60021/api/transform-diaries/${transformDiaryId}`,
         {
           method: 'PUT',
@@ -54,53 +53,11 @@ export default function DiaryModifyScreen({ route }) {
           body: JSON.stringify({ content }),
         }
       );
-      if (!res1.ok) throw new Error('일기 등록 실패');
 
-      // 2. 최신 일기 다시 조회
-      const res2 = await fetch(
-        `http://ceprj.gachon.ac.kr:60021/api/diaries/${diaryId}`,
-        {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        }
-      );
-      if (!res2.ok) throw new Error('일기 재조회 실패');
-      const updatedDiary = await res2.json();
+      if (!response.ok) throw new Error('등록 실패');
 
-      // ✅ 3. 감정 타입 조회
-      let emotionType = '';
-      if (updatedDiary.emotionId) {
-        const emotionRes = await fetch(
-          `http://ceprj.gachon.ac.kr:60021/api/emotions/${updatedDiary.emotionId}`,
-          {
-            headers: { Authorization: `Bearer ${accessToken}` },
-          }
-        );
-        if (emotionRes.ok) {
-          const emotionData = await emotionRes.json();
-          emotionType = emotionData.emotionType;
-        }
-      }
-
-      // 4. 우울증 결과 조회
-      const depressionId = updatedDiary.depressionId;
-      const res3 = await fetch(
-        `http://ceprj.gachon.ac.kr:60021/api/depressions/${depressionId}`,
-        {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        }
-      );
-      if (!res3.ok) throw new Error('우울증 결과 조회 실패');
-      const depressionData = await res3.json();
-
-      // 5. WrittenDiary 화면으로 이동 + alert 조건
-      navigation.navigate('WrittenDiary', {
-        accessToken,
-        diaryId,
-        emotionType, // ✅ 감정 타입 넘김
-        isDepressed: depressionData.result === true,
-        showEmotionAlert: (from === 'DiaryConfirm' || from === 'writtenDiary'),
-      });
-
+      // ✅ 등록 완료 → MainHomeScreen으로 이동
+      navigation.navigate('MainHome', { accessToken, selectedDate: diary.writtenDate, });
     } catch (err) {
       console.error('❌ 등록 실패:', err);
       Alert.alert('오류', '등록에 실패했습니다.');
@@ -124,6 +81,7 @@ export default function DiaryModifyScreen({ route }) {
             <Text style={styles.backButton}>{'<'}</Text>
           </TouchableOpacity>
 
+
           <TouchableOpacity onPress={handleSubmit}>
             <Text style={styles.submitText}>등록</Text>
           </TouchableOpacity>
@@ -139,7 +97,7 @@ export default function DiaryModifyScreen({ route }) {
         </View>
         <View style={styles.divider} />
 
-        {/* 입력창 */}
+        {/* 변환된 일기 수정 입력창 */}
         <TextInput
           style={[styles.diaryText, { marginBottom: 30 }]}
           multiline
@@ -152,3 +110,4 @@ export default function DiaryModifyScreen({ route }) {
     </ScrollView>
   );
 }
+
