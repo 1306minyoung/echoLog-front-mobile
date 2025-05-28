@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Modal, View, Text, Image, ScrollView, TouchableOpacity
+  Modal, View, Text, Image, ScrollView, TouchableOpacity, BackHandler
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { emotionImage, emotionTypeToKorean } from '../assets/emotions.js';
 import { styles } from './styleSheet/writtenDiaryNFeedback_style.js';
 import EmotionAnalysisAlert from './emotionAlert_screen.js';
@@ -29,7 +29,7 @@ const WrittenDiaryDetailScreen = ({ route }) => {
   useEffect(() => {
     fetchAllDiaryData();
   }, []);
- //잠깐 추가
+
   useEffect(() => {
     console.log('🧪 모달 상태:', {
       emotionType,
@@ -38,6 +38,23 @@ const WrittenDiaryDetailScreen = ({ route }) => {
       showAlert,
     });
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (!diary || !diary.writtenDate) return;
+
+      const onBackPress = () => {
+        navigation.navigate('MainHome', {
+          accessToken,
+          focusDate: diary.writtenDate,
+        });
+        return true;
+      };
+
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+      return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, [diary])
+  );
 
   const fetchAllDiaryData = async () => {
     try {
@@ -103,15 +120,13 @@ const WrittenDiaryDetailScreen = ({ route }) => {
     <>
       <ScrollView style={styles.container}>
         <View style={styles.whiteBox}>
-          {/* 상단 네비게이션 */}
           <View style={styles.navRow}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
+            <TouchableOpacity onPress={() => navigation.navigate('MainHome', { accessToken, focusDate: diary.writtenDate })}>
               <Text style={styles.backButton}>{'<'}</Text>
             </TouchableOpacity>
             <Image source={require('../assets/echoLog_logo.png')} style={styles.logo} />
           </View>
 
-          {/* 감정 메타 */}
           <View style={styles.metaInfoRow}>
             <Image source={emotionImage(emotion.emotionType)} style={styles.emotionIcon} />
             <View style={styles.metaTextGroup}>
@@ -138,7 +153,6 @@ const WrittenDiaryDetailScreen = ({ route }) => {
 
           <View style={styles.divider} />
 
-          {/* 피드백 */}
           <View style={styles.feedbackCard}>
             <Image source={require('../assets/feedback.png')} style={styles.characterImage} />
             <View style={styles.feedbackBubble}>
@@ -169,7 +183,6 @@ const WrittenDiaryDetailScreen = ({ route }) => {
             </View>
           </View>
 
-          {/* 우울 분석 */}
           {depression.result && (
             <View style={styles.depressionBox}>
               <Text style={styles.depressionTitle}>
@@ -187,7 +200,6 @@ const WrittenDiaryDetailScreen = ({ route }) => {
             </View>
           )}
 
-          {/* 원본 보기 모달 */}
           <Modal visible={showOriginal} transparent animationType="fade">
             <View style={styles.modalOverlay}>
               <View style={styles.modalBox}>
@@ -201,7 +213,6 @@ const WrittenDiaryDetailScreen = ({ route }) => {
             </View>
           </Modal>
 
-          {/* 수정 모달 */}
           <Modal visible={isRewriteModalVisible} transparent animationType="fade">
             <View style={styles.modalOverlay}>
               <View style={styles.modalBox}>
@@ -231,7 +242,6 @@ const WrittenDiaryDetailScreen = ({ route }) => {
         </View>
       </ScrollView>
 
-      {/* 감정 분석 결과 Alert 모달 */}
       {showAlert && (
         <EmotionAnalysisAlert
           visible={showAlert}
@@ -244,6 +254,5 @@ const WrittenDiaryDetailScreen = ({ route }) => {
   );
 };
 
-export default WrittenDiaryDetailScreen;
-
+export default WrittenDiaryDetailScreen
 
