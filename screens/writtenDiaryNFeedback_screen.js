@@ -5,10 +5,17 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { emotionImage, emotionTypeToKorean } from '../assets/emotions.js';
 import { styles } from './styleSheet/writtenDiaryNFeedback_style.js';
+import EmotionAnalysisAlert from './emotionAlert_screen.js';
 
 const WrittenDiaryDetailScreen = ({ route }) => {
   const navigation = useNavigation();
-  const { diaryId, accessToken } = route.params;
+  const {
+    diaryId,
+    accessToken,
+    emotionType,
+    isDepressed: isDepressedParam,
+    showEmotionAlert
+  } = route.params ?? {};
 
   const [diary, setDiary] = useState(null);
   const [emotion, setEmotion] = useState(null);
@@ -17,9 +24,19 @@ const WrittenDiaryDetailScreen = ({ route }) => {
   const [depression, setDepression] = useState(null);
   const [showOriginal, setShowOriginal] = useState(false);
   const [isRewriteModalVisible, setIsRewriteModalVisible] = useState(false);
+  const [showAlert, setShowAlert] = useState(showEmotionAlert ?? false);
 
   useEffect(() => {
     fetchAllDiaryData();
+  }, []);
+ //잠깐 추가
+  useEffect(() => {
+    console.log('🧪 모달 상태:', {
+      emotionType,
+      isDepressedParam,
+      showEmotionAlert,
+      showAlert,
+    });
   }, []);
 
   const fetchAllDiaryData = async () => {
@@ -59,15 +76,15 @@ const WrittenDiaryDetailScreen = ({ route }) => {
   const updateUserReaction = async (reaction) => {
     try {
       const res = await fetch(
-          `http://ceprj.gachon.ac.kr:60021/api/diary-feedbacks/${feedback.diaryFeedbackId}`,
-          {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${accessToken}`,
-            },
-            body: JSON.stringify({ userReaction: reaction, content: feedback.content }),
-          }
+        `http://ceprj.gachon.ac.kr:60021/api/diary-feedbacks/${feedback.diaryFeedbackId}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({ userReaction: reaction, content: feedback.content }),
+        }
       );
 
       if (!res.ok) throw new Error('반응 업데이트 실패');
@@ -83,6 +100,7 @@ const WrittenDiaryDetailScreen = ({ route }) => {
   }
 
   return (
+    <>
       <ScrollView style={styles.container}>
         <View style={styles.whiteBox}>
           {/* 상단 네비게이션 */}
@@ -129,22 +147,22 @@ const WrittenDiaryDetailScreen = ({ route }) => {
                 <Text style={styles.likeit}>맘에 들었나요?</Text>
                 <TouchableOpacity onPress={() => updateUserReaction('LIKE')}>
                   <Image
-                      source={
-                        userReaction === 'LIKE'
-                            ? require('../assets/dislike_like/Like_pushed.png')
-                            : require('../assets/dislike_like/Like_first.png')
-                      }
-                      style={styles.reactionIcon}
+                    source={
+                      userReaction === 'LIKE'
+                        ? require('../assets/dislike_like/Like_pushed.png')
+                        : require('../assets/dislike_like/Like_first.png')
+                    }
+                    style={styles.reactionIcon}
                   />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => updateUserReaction('DISLIKE')}>
                   <Image
-                      source={
-                        userReaction === 'DISLIKE'
-                            ? require('../assets/dislike_like/Dislike_pushed.png')
-                            : require('../assets/dislike_like/Dislike_first.png')
-                      }
-                      style={styles.reactionIcon}
+                    source={
+                      userReaction === 'DISLIKE'
+                        ? require('../assets/dislike_like/Dislike_pushed.png')
+                        : require('../assets/dislike_like/Dislike_first.png')
+                    }
+                    style={styles.reactionIcon}
                   />
                 </TouchableOpacity>
               </View>
@@ -153,20 +171,20 @@ const WrittenDiaryDetailScreen = ({ route }) => {
 
           {/* 우울 분석 */}
           {depression.result && (
-              <View style={styles.depressionBox}>
-                <Text style={styles.depressionTitle}>
-                  최근 14일간의 일기를 분석해봤는데,{'\n'}
-                  요즘 너무 우울해하는 것 같아 걱정돼…🥲{'\n'}
-                  전문가 상담 또는 기관의 도움을 받는 걸 추천해!
-                </Text>
-                <Text style={styles.depressionContact}>👇정신건강 위기상담전화👇{'\n'}1577-0199 또는 129</Text>
-                <Text style={styles.depressionScore}>
-                  {'\n'}최근 2주 간 일기 기반 점수{'\n'}• PHQ-9: {depression.phq9Score}점{'\n'}• GAD-7: {depression.gad7Score}점
-                </Text>
-                <Text style={styles.depressionNote}>
-                  *PHQ·GAD는 우울증 증상을 측정, 진단하는 설문지로{'\n'}인지적, 정서적, 신체적 증상의 변화를 평가함
-                </Text>
-              </View>
+            <View style={styles.depressionBox}>
+              <Text style={styles.depressionTitle}>
+                최근 14일간의 일기를 분석해봤는데,{'\n'}
+                요즘 너무 우울해하는 것 같아 걱정돼…🥲{'\n'}
+                전문가 상담 또는 기관의 도움을 받는 걸 추천해!
+              </Text>
+              <Text style={styles.depressionContact}>👇정신건강 위기상담전화👇{'\n'}1577-0199 또는 129</Text>
+              <Text style={styles.depressionScore}>
+                {'\n'}최근 2주 간 일기 기반 점수{'\n'}• PHQ-9: {depression.phq9Score}점{'\n'}• GAD-7: {depression.gad7Score}점
+              </Text>
+              <Text style={styles.depressionNote}>
+                *PHQ·GAD는 우울증 증상을 측정, 진단하는 설문지로{'\n'}인지적, 정서적, 신체적 증상의 변화를 평가함
+              </Text>
+            </View>
           )}
 
           {/* 원본 보기 모달 */}
@@ -193,14 +211,17 @@ const WrittenDiaryDetailScreen = ({ route }) => {
                   <TouchableOpacity style={styles.modalBtnCancel} onPress={() => setIsRewriteModalVisible(false)}>
                     <Text style={styles.modalBtnText}>아니요</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.modalBtnConfirm} 
-                  onPress={() => {
-                    setIsRewriteModalVisible(false);
-                    navigation.navigate('DiaryModify', {
-                      diaryId,
-                      accessToken,
-                    });
-                  }}>
+                  <TouchableOpacity
+                    style={styles.modalBtnConfirm}
+                    onPress={() => {
+                      setIsRewriteModalVisible(false);
+                      navigation.navigate('DiaryModify', {
+                        diaryId,
+                        accessToken,
+                        from: 'writtenDiary',
+                      });
+                    }}
+                  >
                     <Text style={styles.modalBtnTextWhite}>할래요</Text>
                   </TouchableOpacity>
                 </View>
@@ -209,7 +230,20 @@ const WrittenDiaryDetailScreen = ({ route }) => {
           </Modal>
         </View>
       </ScrollView>
+
+      {/* 감정 분석 결과 Alert 모달 */}
+      {showAlert && (
+        <EmotionAnalysisAlert
+          visible={showAlert}
+          emotionType={emotionType}
+          isDepressed={isDepressedParam}
+          onClose={() => setShowAlert(false)}
+        />
+      )}
+    </>
   );
 };
 
 export default WrittenDiaryDetailScreen;
+
+

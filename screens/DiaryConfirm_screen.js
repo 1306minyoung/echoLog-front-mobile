@@ -77,6 +77,7 @@ export default function DiaryConfirmScreen({ route }) {
               navigation.navigate('DiaryModify', {
                 diaryId,
                 accessToken,
+                from: 'DiaryConfirm',
               })
             }
           >
