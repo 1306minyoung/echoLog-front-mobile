@@ -11,9 +11,6 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
-// 실제 이미지 경로로 교체해주세요. 예: ../assets/winking_bear.png
-const bearImage = require('../assets/splash.png');
-
 WelcomeScreen.propTypes = {
     navigation: PropTypes.shape({
         navigate: PropTypes.func.isRequired,
@@ -29,32 +26,24 @@ export default function WelcomeScreen({ navigation }) {
         <TouchableWithoutFeedback onPress={handleScreenPress}>
             <View style={styles.container}>
                 <View style={styles.topContent}>
-                    {/* 
-                      이미지 파일을 assets 폴더에 넣고 아래 경로를 수정해주세요.
-                      예: source={require('../assets/winking_bear.png')} 
-                    */}
                     <Image
-                        source={require('../assets/splash.png')} // 임시 플레이스홀더, 실제 이미지로 교체하세요.
+                        source={require('../assets/splash.png')}
                         style={styles.bearImage}
                         resizeMode="contain"
                     />
-                    <Text style={styles.mainTitle}>든든한 친구</Text>
-                    <Text style={styles.mainTitle}>AI 햄식이와 함께</Text>
-                    <Text style={styles.mainTitle}>당신의 마음을</Text>
-                    <Text style={styles.mainTitle}>
-                        살펴보아요<Text style={styles.heartIcon}>💚</Text>
-                    </Text>
+                    <Text style={styles.mainTitle}>AI 친구 햄식이와</Text>
+                    <Text style={styles.mainTitle}>당신의 마음을 살펴보아요</Text>
                 </View>
-
                 <View style={styles.middleContent}>
-                    <Text style={styles.infoTitle}>햄식이는 이런 걸 할 수 있어요!</Text>
-                    <Text style={styles.infoItem}>목소리만으로 편리한 일기 작성을 도와줘요</Text>
-                    <Text style={styles.infoItem}>톡톡 털어놓은 말을 일기답게 변신시켜 줘요</Text>
-                    <Text style={styles.infoItem}>우울하거나 불안한 건 아닌지 지켜봐줘요</Text>
-                    <Text style={styles.infoItem}>일기를 읽고 오늘의 감정은 무엇이었는지 알려줘요</Text>
-                    <Text style={styles.infoItem}>
-                        <Text style={styles.leafIcon}>🌿</Text>당신의 마음에 공감하며 따뜻한 한마디를 해줘요
-                    </Text>
+                    <Text style={styles.infoTitle}>✨ 햄식이는 이런 걸 해줘요 ✨</Text>
+                    <View style={styles.card}>
+                        <Text style={styles.infoItem}>🗣️ 목소리로 간편하게 일기를 써요</Text>
+                        <Text style={styles.infoItem}>📝 말하듯 쓴 글을 일기답게 바꿔줘요</Text>
+                        <Text style={styles.infoItem}>🧠 우울함이나 불안을 살펴줘요</Text>
+                        <Text style={styles.infoItem}>📊 오늘의 감정을 분석해줘요</Text>
+                        <Text style={styles.infoItem}>🌿 따뜻한 말로 당신을 응원해줘요</Text>
+                    </View>
+
                 </View>
 
                 {/* "터치하여 계속" 버튼은 시각적으로만 존재, 전체 화면 터치로 네비게이션 */}
@@ -71,13 +60,13 @@ export default function WelcomeScreen({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#3b397e',
         justifyContent: 'space-around', // 콘텐츠를 균등하게 배분
         alignItems: 'center',
         paddingHorizontal: 20,
         // 안드로이드와 iOS의 상태 표시줄 및 노치 디자인을 고려한 상단 패딩
-        paddingTop: Platform.OS === 'android' ? NativeStatusBar.currentHeight + 20 : 60,
-        paddingBottom: 40, // 하단 여백
+        paddingTop: Platform.OS === 'android' ? NativeStatusBar.currentHeight + 5 : 60,
+        paddingBottom: 120, // 하단 여백
     },
     topContent: {
         alignItems: 'center',
@@ -88,37 +77,47 @@ const styles = StyleSheet.create({
         marginBottom: 25,
     },
     mainTitle: {
-        fontSize: 26,
-        fontWeight: 'bold',
-        color: '#3CAF50', // 이미지상의 초록색 계열 (정확한 값으로 조절)
+        fontSize: 22,
+        fontWeight: 350,
+        color: '#fff',
         textAlign: 'center',
-        lineHeight: 34, // 줄 간격 조절
+        lineHeight: 28, // 줄 간격 조절
         marginBottom: 3,
+        letterSpacing: '1px',
     },
-    heartIcon: {
-        color: '#3CAF50', // 메인 타이틀과 동일한 초록색
+    card: {
+        backgroundColor: 'white',
+        borderRadius: 16,
+        paddingVertical: 20,
+        paddingHorizontal: 16,
+        marginTop: 16,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.1,
+        shadowRadius: 8,
+        elevation: 6,
     },
+
     middleContent: {
         alignItems: 'center',
         paddingHorizontal: 10, // 긴 텍스트가 화면 가장자리에 닿지 않도록
     },
     infoTitle: {
-        fontSize: 15,
+        fontSize: 18,
         fontWeight: 'bold',
-        color: '#404040', // 약간 어두운 회색
+        color: '#fff',
         marginBottom: 18,
         textAlign: 'center',
+        
     },
     infoItem: {
         fontSize: 13.5, // 기본 텍스트보다 약간 작게
-        color: '#505050', // 중간 회색
+        color: '#000', // 중간 회색
         textAlign: 'center',
         lineHeight: 21, // 줄 간격
         marginBottom: 8,
     },
-    leafIcon: {
-        color: '#3CAF50', // 초록색 잎 아이콘
-    },
+
     bottomContent: {
         width: '100%',
         alignItems: 'center',

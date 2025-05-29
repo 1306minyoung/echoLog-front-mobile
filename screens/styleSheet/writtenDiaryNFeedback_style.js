@@ -204,7 +204,7 @@ export const styles = StyleSheet.create({
       marginHorizontal: 6,
     },
     likeit: { 
-      fontSize: 13,
+      fontSize: 11,
       color: '#C6C6C6'
 
     },
