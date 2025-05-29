@@ -3,35 +3,27 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import WelcomeScreen from './screens/WelcomeScreen'; // 새로 추가한 WelcomeScreen 임포트
 import SplashScreen from './screens/splash_screen';
 import MainHomeScreen from './screens/mainHome_screen';
 import WrittenDiaryDetailScreen from './screens/writtenDiaryNFeedback_screen';
 import DiaryConfirmScreen from './screens/DiaryConfirm_screen';
-import StartScreen from './screens/StartScreen';
+import StartScreen from './screens/StartScreen'; // Import the new StartScreen
 import LoginScreen from './screens/Login';
-import SignUpScreen from './screens/SignUpScreen';
+import SignUpScreen from './screens/SignUpScreen';;
 import DiaryModifyScreen from './screens/DiaryModify_screen';
 import RecapScreen from './screens/recap_screen';
 import DiaryWriteScreen from './screens/DiaryWriteScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import EmotionAnalysisAlert from './screens/emotionAlert_screen';
-import AnnouncementsScreen from './screens/AnnouncementsScreen'; 
-
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      {/* initialRouteName을 "Welcome"으로 변경하여 WelcomeScreen이 첫 화면이 되도록 설정 */}
-      <Stack.Navigator initialRouteName="Welcome">
+      {/* Set StartScreen as the initial route */}
+      <Stack.Navigator initialRouteName="Start">
         <Stack.Screen
-          name="Welcome" // WelcomeScreen의 네비게이션 이름
-          component={WelcomeScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Start"
+          name="Start" // Screen name for StartScreen
           component={StartScreen}
           options={{ headerShown: false }}
         />
@@ -56,12 +48,12 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="Login"
+          name="Login" // Changed from "LoginScreen" to "Login" to match StartScreen's navigation
           component={LoginScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="SignUp"
+          name="SignUp" // Name used by StartScreen to navigate
           component={SignUpScreen}
           options={{ headerShown: false }}
         />
@@ -90,14 +82,7 @@ export default function App() {
           component={EmotionAnalysisAlert}
           options={{ headerShown: false }}
         />
-        <Stack.Screen
-                  name="Announcements" 
-                  component={AnnouncementsScreen}
-                  options={{ headerShown: false }} 
-                />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
-// App.js에는 일반적으로 StyleSheet가 필요 없습니다.
