@@ -59,76 +59,71 @@ export default function StartScreen({ navigation }) {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'space-around',
-        paddingHorizontal: 40,
-        paddingVertical: 50,
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'space-between', // ✅ 공간 재배분
+      paddingHorizontal: 40,
+      paddingVertical: 60, // ✅ 상하 padding 여유있게
     },
     headerSection: {
-        alignItems: 'center',
-        justifyContent: 'center',
+      alignItems: 'center',
+      justifyContent: 'center',
     },
     logoContainer: {
-        // flexDirection: 'row', // 단일 이미지이므로 row 방향 불필요
-        alignItems: 'center', // 이미지 중앙 정렬
-        justifyContent: 'center', // 이미지 중앙 정렬
-        // marginRight: 15, // 더 이상 필요 없음
-        // 이전 logoIconBackground와 logoText를 합친 것보다 충분한 공간을 확보하기 위해 마진 추가 가능
-        // 예: marginBottom: 20, 또는 headerSection에서 패딩 조절
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: 40, // ✅ 로고를 아래로 조금 내림
     },
-    // logoIconBackground 스타일 삭제
-    // logoIconImage 스타일을 logoImage로 변경하고 전체 로고에 맞게 수정
     logoImage: {
-        width: 240, // Login.js와 동일한 크기로 설정 (필요시 조절)
-        height: 80, // Login.js와 동일한 크기로 설정 (필요시 조절)
+      width: 160,
+      height: 80,
     },
-    // logoText 스타일 삭제
     mainContentSection: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginVertical: 40,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginVertical: 20, // ✅ 좀 더 자연스럽게
     },
     mainCatchphrase: {
-        fontSize: 26,
-        fontWeight: 'bold',
-        color: '#000',
-        textAlign: 'center',
-        marginBottom: 15,
+      fontSize: 26,
+      fontWeight: 'bold',
+      color: '#000',
+      textAlign: 'center',
+      marginBottom: 15,
     },
     subCatchphrase: {
-        fontSize: 15,
-        color: '#4A4A4A',
-        textAlign: 'center',
-        lineHeight: 22,
+      fontSize: 15,
+      color: '#4A4A4A',
+      textAlign: 'center',
+      lineHeight: 22,
     },
     footerSection: {
-        alignItems: 'center',
-        width: '100%',
-        justifyContent: 'center',
+      alignItems: 'center',
+      width: '100%',
+      justifyContent: 'center',
     },
     signUpButton: {
-        backgroundColor: '#000',
-        borderRadius: 30,
-        paddingVertical: 18,
-        paddingHorizontal: 20,
-        width: '100%',
-        alignItems: 'center',
-        marginBottom: 20,
+      backgroundColor: '#000',
+      borderRadius: 30,
+      paddingVertical: 18,
+      paddingHorizontal: 20,
+      width: '100%',
+      alignItems: 'center',
+      marginBottom: 20,
     },
     signUpButtonText: {
-        color: '#fff',
-        fontSize: 16,
-        fontWeight: 'bold',
+      color: '#fff',
+      fontSize: 16,
+      fontWeight: 'bold',
     },
     loginPromptText: {
-        fontSize: 14,
-        color: '#888',
+      fontSize: 14,
+      color: '#888',
     },
     loginLinkText: {
-        color: '#555',
-        fontWeight: 'bold',
-        textDecorationLine: 'underline',
+      color: '#555',
+      fontWeight: 'bold',
+      textDecorationLine: 'underline',
     },
-});
+  });
+  

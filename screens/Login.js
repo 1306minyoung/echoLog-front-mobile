@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     logoImage: {
-        width: 240,
+        width: 120,
         height: 100,
         // resizeMode="contain"은 Image 컴포넌트 속성으로 이동했습니다.
     },
