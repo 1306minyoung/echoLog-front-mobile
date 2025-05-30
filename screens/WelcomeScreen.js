@@ -32,10 +32,10 @@ export default function WelcomeScreen({ navigation }) {
                         resizeMode="contain"
                     />
                     <Text style={styles.mainTitle}>AI 친구 햄식이와</Text>
-                    <Text style={styles.mainTitle}>당신의 마음을 살펴보아요</Text>
+                    <Text style={styles.mainTitle}>✨당신의 마음을 살펴보아요✨</Text>
                 </View>
                 <View style={styles.middleContent}>
-                    <Text style={styles.infoTitle}>✨ 햄식이는 이런 걸 해줘요 ✨</Text>
+                    <Text style={styles.infoTitle}>👇햄식이는 이런 걸 해줘요👇</Text>
                     <View style={styles.card}>
                         <Text style={styles.infoItem}>🗣️ 목소리로 간편하게 일기를 써요</Text>
                         <Text style={styles.infoItem}>📝 말하듯 쓴 글을 일기답게 바꿔줘요</Text>
@@ -65,8 +65,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingHorizontal: 20,
         // 안드로이드와 iOS의 상태 표시줄 및 노치 디자인을 고려한 상단 패딩
-        paddingTop: Platform.OS === 'android' ? NativeStatusBar.currentHeight + 5 : 60,
-        paddingBottom: 120, // 하단 여백
+        paddingTop: 70,
+        paddingBottom: 80, // 하단 여백
     },
     topContent: {
         alignItems: 'center',
@@ -77,20 +77,21 @@ const styles = StyleSheet.create({
         marginBottom: 25,
     },
     mainTitle: {
-        fontSize: 22,
+        fontSize: 27,
         fontWeight: 350,
         color: '#fff',
         textAlign: 'center',
-        lineHeight: 28, // 줄 간격 조절
+        lineHeight: 34, // 줄 간격 조절
         marginBottom: 3,
-        letterSpacing: '1px',
+        letterSpacing: '1',
     },
     card: {
         backgroundColor: 'white',
         borderRadius: 16,
-        paddingVertical: 20,
-        paddingHorizontal: 16,
-        marginTop: 16,
+        paddingVertical: 40,
+        paddingHorizontal: 20,
+        width: 300,
+        marginTop: 6,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.1,
@@ -98,24 +99,24 @@ const styles = StyleSheet.create({
         elevation: 6,
     },
 
-    middleContent: {
+    middleContent: { //햄식이는 이런걸~
         alignItems: 'center',
-        paddingHorizontal: 10, // 긴 텍스트가 화면 가장자리에 닿지 않도록
     },
+
     infoTitle: {
-        fontSize: 18,
+        fontSize: 22,
         fontWeight: 'bold',
-        color: '#fff',
+        color: '#FFF9C9',
         marginBottom: 18,
         textAlign: 'center',
-        
+        letterSpacing: '1.2',
     },
     infoItem: {
-        fontSize: 13.5, // 기본 텍스트보다 약간 작게
-        color: '#000', // 중간 회색
+        fontSize: 17, //카드 내부 텍스트
+        color: '#000', 
         textAlign: 'center',
-        lineHeight: 21, // 줄 간격
-        marginBottom: 8,
+        lineHeight: 30, // 줄 간격
+        marginBottom: 2,
     },
 
     bottomContent: {
