@@ -80,11 +80,11 @@ export const styles = StyleSheet.create({
     height: '100%',
     resizeMode: 'cover',
   },
-  diaryCard: { // 통합된 diaryCard 스타일
+  diaryCard: { 
     position: 'absolute',
     left: 0,
     right: 0,
-    bottom: 80, // 하단 바 높이만큼 위로 조정 (80으로 가정)
+    bottom: 80, 
     backgroundColor: 'white',
     padding: 20,
     borderTopLeftRadius: 30,
@@ -148,9 +148,9 @@ export const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
   },
-  noDiaryText: { // 통합된 noDiaryText 스타일
-    fontSize: 14,      // 이전 정의에서 가져오거나 원하는 크기로 설정
-    color: '#555',     // 흰색 배경에 맞게 어두운 회색으로 변경
+  noDiaryText: { 
+    fontSize: 14,      
+    color: '#555',     
     textAlign: 'center',
     paddingHorizontal: 20,
     marginTop: 10,

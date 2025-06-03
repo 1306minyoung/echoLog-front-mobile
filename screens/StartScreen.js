@@ -22,11 +22,10 @@ export default function StartScreen({ navigation }) {
     return (
         <View style={styles.container}>
             <View style={styles.headerSection}>
-                {/* 로고 컨테이너: 단일 전체 이미지로 변경 */}
                 <View style={styles.logoContainer}>
                     <Image
-                        source={require('../assets/echoLog_logo.png')} // 전체 로고 이미지 경로
-                        style={styles.logoImage} // Login.js와 동일한 스타일명 사용
+                        source={require('../assets/echoLog_logo.png')} 
+                        style={styles.logoImage} 
                         resizeMode="contain"
                     />
                 </View>
@@ -56,9 +55,9 @@ const styles = StyleSheet.create({
       flex: 1,
       backgroundColor: '#fff',
       alignItems: 'center',
-      justifyContent: 'space-between', // ✅ 공간 재배분
+      justifyContent: 'space-between', 
       paddingHorizontal: 40,
-      paddingVertical: 60, // ✅ 상하 padding 여유있게
+      paddingVertical: 160, 
     },
     headerSection: {
       alignItems: 'center',
@@ -67,7 +66,7 @@ const styles = StyleSheet.create({
     logoContainer: {
       alignItems: 'center',
       justifyContent: 'center',
-      marginTop: 40, // ✅ 로고를 아래로 조금 내림
+      marginTop: 150, 
     },
     logoImage: {
       width: 160,
@@ -76,7 +75,7 @@ const styles = StyleSheet.create({
     mainContentSection: {
       alignItems: 'center',
       justifyContent: 'center',
-      marginVertical: 20, // ✅ 좀 더 자연스럽게
+      marginVertical: 10, 
     },
     mainCatchphrase: {
       fontSize: 26,

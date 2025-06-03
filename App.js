@@ -3,8 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import WelcomeScreen from './screens/WelcomeScreen'; // 새로 추가한 WelcomeScreen 임포트
-import SplashScreen from './screens/splash_screen';
+import WelcomeScreen from './screens/WelcomeScreen'; 
 import MainHomeScreen from './screens/mainHome_screen';
 import WrittenDiaryDetailScreen from './screens/writtenDiaryNFeedback_screen';
 import DiaryConfirmScreen from './screens/DiaryConfirm_screen';
@@ -23,10 +22,9 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      {/* initialRouteName을 "Welcome"으로 변경하여 WelcomeScreen이 첫 화면이 되도록 설정 */}
       <Stack.Navigator initialRouteName="Welcome">
         <Stack.Screen
-          name="Welcome" // WelcomeScreen의 네비게이션 이름
+          name="Welcome" 
           component={WelcomeScreen}
           options={{ headerShown: false }}
         />
@@ -35,11 +33,7 @@ export default function App() {
           component={StartScreen}
           options={{ headerShown: false }}
         />
-        <Stack.Screen
-          name="Splash"
-          component={SplashScreen}
-          options={{ headerShown: false }}
-        />
+
         <Stack.Screen
           name="WrittenDiary"
           component={WrittenDiaryDetailScreen}
@@ -100,4 +94,3 @@ export default function App() {
   );
 }
 
-// App.js에는 일반적으로 StyleSheet가 필요 없습니다.

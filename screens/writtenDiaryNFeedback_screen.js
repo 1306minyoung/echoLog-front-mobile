@@ -34,7 +34,7 @@ const WrittenDiaryDetailScreen = ({ route }) => {
   }, []);
 
   useEffect(() => {
-    console.log('🧪 모달 상태:', {
+    console.log('모달 상태:', {
       emotionType,
       isDepressedParam,
       showEmotionAlert,
@@ -56,7 +56,7 @@ const WrittenDiaryDetailScreen = ({ route }) => {
 
       const backHandler = BackHandler.addEventListener('hardwareBackPress', onBackPress);
 
-      return () => backHandler.remove(); // ✅ 이렇게 수정!
+      return () => backHandler.remove(); 
     }, [diary])
   );
 
@@ -90,7 +90,7 @@ const WrittenDiaryDetailScreen = ({ route }) => {
       setUserReaction(feedbackData.userReaction);
       setDepression(depressionData);
     } catch (err) {
-      console.error('❌ 통합 API 실패:', err.message);
+      console.error('통합 API 실패:', err.message);
     }
   };
 
@@ -110,9 +110,9 @@ const WrittenDiaryDetailScreen = ({ route }) => {
 
       if (!res.ok) throw new Error('반응 업데이트 실패');
       setUserReaction(reaction);
-      console.log('✅ 반응 업데이트 완료:', reaction);
+      console.log(' 반응 업데이트 완료:', reaction);
     } catch (err) {
-      console.error('❌ 반응 PUT 실패:', err.message);
+      console.error(' 반응 PUT 실패:', err.message);
     }
   };
 
@@ -161,7 +161,7 @@ const WrittenDiaryDetailScreen = ({ route }) => {
             <Image source={require('../assets/feedback.png')} style={styles.characterImage} />
             <View style={styles.feedbackBubble}>
 
-              {/* 🔍 블러 조건 상태 확인 */}
+    
               {(() => {
                 console.log('🧊 isFeedbackBlurred 상태:', isFeedbackBlurred);
 

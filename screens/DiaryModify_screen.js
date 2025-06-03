@@ -12,7 +12,7 @@ export default function DiaryModifyScreen({ route }) {
   const [diary, setDiary] = useState(null);
   const [content, setContent] = useState('');
 
-  // ✅ 일기 상세 조회
+  // 일기 상세 조회
   useEffect(() => {
     fetch(`http://ceprj.gachon.ac.kr:60021/api/diaries/${diaryId}`, {
       headers: {
@@ -28,12 +28,12 @@ export default function DiaryModifyScreen({ route }) {
         setContent(data.transformContent || '');
       })
       .catch((err) => {
-        console.error('❌ 일기 불러오기 실패:', err);
+        console.error('일기 불러오기 실패:', err);
         Alert.alert('오류', '일기 불러오기 중 문제가 발생했습니다.');
       });
   }, [diaryId]);
 
-  // ✅ 등록 버튼 로직
+  // 등록 버튼 로직
   const handleSubmit = async () => {
     try {
       const { transformDiaryId } = diary;
@@ -42,7 +42,7 @@ export default function DiaryModifyScreen({ route }) {
         return;
       }
 
-      // 1. 변환된 일기 업데이트
+      // 변환된 일기 업데이트
       const res1 = await fetch(
         `http://ceprj.gachon.ac.kr:60021/api/transform-diaries/${transformDiaryId}`,
         {
@@ -56,7 +56,7 @@ export default function DiaryModifyScreen({ route }) {
       );
       if (!res1.ok) throw new Error('일기 등록 실패');
 
-      // 2. 최신 일기 다시 조회
+      // 최신 일기 다시 조회
       const res2 = await fetch(
         `http://ceprj.gachon.ac.kr:60021/api/diaries/${diaryId}`,
         {
@@ -66,7 +66,7 @@ export default function DiaryModifyScreen({ route }) {
       if (!res2.ok) throw new Error('일기 재조회 실패');
       const updatedDiary = await res2.json();
 
-      // ✅ 3. 감정 타입 조회
+      // 3. 감정 타입 조회
       let emotionType = '';
       if (updatedDiary.emotionId) {
         const emotionRes = await fetch(
@@ -81,7 +81,7 @@ export default function DiaryModifyScreen({ route }) {
         }
       }
 
-      // 4. 우울증 결과 조회
+      // 우울증 결과 조회
       const depressionId = updatedDiary.depressionId;
       const res3 = await fetch(
         `http://ceprj.gachon.ac.kr:60021/api/depressions/${depressionId}`,
@@ -92,11 +92,11 @@ export default function DiaryModifyScreen({ route }) {
       if (!res3.ok) throw new Error('우울증 결과 조회 실패');
       const depressionData = await res3.json();
 
-      // 5. WrittenDiary 화면으로 이동 + alert 조건
+      // WrittenDiary 화면으로 이동 + alert 조건
       navigation.navigate('WrittenDiary', {
         accessToken,
         diaryId,
-        emotionType, // ✅ 감정 타입 넘김
+        emotionType, // 감정 타입 넘김
         isDepressed: depressionData.result === true,
         showEmotionAlert: (from === 'DiaryConfirm' || from === 'writtenDiary'),
         showFeedbackBlur: true, //새로 수정!!
@@ -104,7 +104,7 @@ export default function DiaryModifyScreen({ route }) {
       });
 
     } catch (err) {
-      console.error('❌ 등록 실패:', err);
+      console.error('등록 실패:', err);
       Alert.alert('오류', '등록에 실패했습니다.');
     }
   };

@@ -25,7 +25,7 @@ export default function DiaryConfirmScreen({ route }) {
         const data = await res.json();
         setDiary(data);
       } catch (error) {
-        console.error('❌ 일기 가져오기 실패:', error.message);
+        console.error('일기 가져오기 실패:', error.message);
       } finally {
         setLoading(false);
       }
@@ -66,11 +66,11 @@ export default function DiaryConfirmScreen({ route }) {
         accessToken,
         emotionType,
         isDepressed: depData.result === true,
-        showEmotionAlert: true, // ✅ 모달 띄우기
+        showEmotionAlert: true, // 모달 띄우기
         showFeedbackBlur: true, //새로 수정!!!
       });
     } catch (error) {
-      console.error('❌ 확정 처리 실패:', error.message);
+      console.error('확정 처리 실패:', error.message);
       Alert.alert('오류', '일기 확정 중 문제가 발생했습니다.');
     }
   };

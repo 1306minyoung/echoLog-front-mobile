@@ -27,7 +27,6 @@ export default function WelcomeScreen({ navigation }) {
         navigation.navigate('Start');
     };
 
-    // 💫 깜빡이는 텍스트용 opacity 애니메이션
     const opacity = useSharedValue(1);
     useEffect(() => {
         opacity.value = withRepeat(withTiming(0.8, { duration: 1300 }), -1, true);
@@ -110,7 +109,7 @@ const styles = StyleSheet.create({
         letterSpacing: 1,
     },
     card: {
-        backgroundColor: 'rgba(255, 255, 255, 0.85)', // 투명도 85%
+        backgroundColor: 'rgba(255, 255, 255, 0.85)',
         borderRadius: 16,
         paddingVertical: 40,
         paddingHorizontal: 20,
@@ -123,7 +122,7 @@ const styles = StyleSheet.create({
         elevation: 6,
     },
     infoItem: {
-        fontSize: 17,
+        fontSize: 16,
         color: '#5D5D5D',
         textAlign: 'center',
         lineHeight: 30,
@@ -139,9 +138,9 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         textAlign: 'center',
         marginTop: 10,
-        textShadowColor: 'rgba(255, 255, 255, 0.35)', // 밝은 흰색 Glow
-        textShadowOffset: { width: 0, height: 0 },    // 중심에서 퍼지게
-        textShadowRadius: 6                          // 퍼짐 정도 (Glow 강도)
+        textShadowColor: 'rgba(255, 255, 255, 0.35)', 
+        textShadowOffset: { width: 0, height: 0 },   
+        textShadowRadius: 6                          
       }
       
       
